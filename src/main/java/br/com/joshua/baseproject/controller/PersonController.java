@@ -20,37 +20,37 @@ import br.com.joshua.baseproject.service.PersonService;
 @RestController
 @RequestMapping("/api/persons")
 public class PersonController {
-	
+
 	@Autowired
 	private PersonService service;
-	
+
 	@GetMapping("/{page}/{size}")
 	public ResponseEntity<List<PersonDto>> getAll(@PathVariable Integer page, @PathVariable Integer size) {
 		List<PersonDto> persons = service.findAll(page, size);
 		return new ResponseEntity<List<PersonDto>>(persons, HttpStatus.OK);
 	}
-	
+
 	@PostMapping
 	public ResponseEntity<PersonDto> create(@RequestBody PersonDto person) {
 		PersonDto personSave = service.save(person);
 		return new ResponseEntity<PersonDto>(personSave, HttpStatus.CREATED);
 	}
-	
+
 	@PutMapping
 	public ResponseEntity<PersonDto> update(@RequestBody PersonDto person) {
 		PersonDto personUpdate = service.save(person);
 		return new ResponseEntity<PersonDto>(personUpdate, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/{id}")
 	public ResponseEntity<PersonDto> getOneById(@PathVariable(required = false) Long id) {
 		PersonDto person = service.findOne(id);
 		return new ResponseEntity<PersonDto>(person, HttpStatus.OK);
 	}
-	
+
 	@DeleteMapping("/{id}")
-	public ResponseEntity<PersonDto> deleteById(@PathVariable(required = false) Long id) {
+	public ResponseEntity<Void> deleteById(@PathVariable(required = false) Long id) {
 		service.delete(id);
-		return new ResponseEntity<PersonDto>(HttpStatus.OK);
+		return ResponseEntity.noContent().build();
 	}
 }
