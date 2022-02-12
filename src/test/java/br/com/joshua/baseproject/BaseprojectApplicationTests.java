@@ -2,14 +2,18 @@ package br.com.joshua.baseproject;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Answers;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
@@ -50,6 +54,31 @@ class BaseprojectApplicationTests {
 		assertEquals("Gina", response.getName());
 		assertEquals("gina@gmail.com", response.getEmail());
 		assertEquals(1L, response.getId());
+	}
+
+	@Test
+	public void deletePersonTest() {
+		Optional<Person> optionalPerson = Optional.of(person);
+		when(repository.findById(1L)).thenReturn(optionalPerson);
+
+		repository.deleteById(1L);
+
+		verify(repository, times(1)).deleteById(1L);
+	}
+	
+	@Test
+	public void findOnePersonTest() {
+		Optional<Person> optionalPerson = Optional.of(person);
+		when(repository.findById(1L)).thenReturn(optionalPerson);
+
+		Optional<Person> personReturnOptional = repository.findById(1L);
+		Person personReturn = personReturnOptional.get();
+		
+		verify(repository, times(1)).findById(1L);
+		
+		assertEquals("Gina", personReturn.getName());
+		assertEquals("gina@gmail.com", personReturn.getEmail());
+		assertEquals(1L, personReturn.getId());
 	}
 
 }
