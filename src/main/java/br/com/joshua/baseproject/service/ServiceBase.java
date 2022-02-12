@@ -8,7 +8,7 @@ public interface ServiceBase<T, ID> {
 	
 	T findOne(ID id);
 	
-	List<T> findAll();
+	List<T> findAll(Integer page, Integer size);
 	
 	void delete(ID id);
 	

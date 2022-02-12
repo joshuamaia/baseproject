@@ -24,9 +24,9 @@ public class PersonController {
 	@Autowired
 	private PersonService service;
 	
-	@GetMapping
-	public ResponseEntity<List<PersonDto>> getAll() {
-		List<PersonDto> persons = service.findAll();
+	@GetMapping("/{page}/{size}")
+	public ResponseEntity<List<PersonDto>> getAll(@PathVariable Integer page, @PathVariable Integer size) {
+		List<PersonDto> persons = service.findAll(page, size);
 		return new ResponseEntity<List<PersonDto>>(persons, HttpStatus.OK);
 	}
 	

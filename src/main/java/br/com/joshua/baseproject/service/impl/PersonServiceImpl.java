@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import br.com.joshua.baseproject.domain.Person;
@@ -40,8 +41,9 @@ public class PersonServiceImpl implements PersonService, Conveter<Person, Person
 	}
 
 	@Override
-	public List<PersonDto> findAll() {
-		return this.repository.findAll().stream().map(p -> convertFromEntity(p)).collect(Collectors.toList());
+	public List<PersonDto> findAll(Integer page, Integer size) {
+		PageRequest pageRequest = PageRequest.of(page, size);
+		return this.repository.findAll(pageRequest).stream().map(p -> convertFromEntity(p)).collect(Collectors.toList());
 	}
 
 	@Override
