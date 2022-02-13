@@ -16,8 +16,11 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import br.com.joshua.baseproject.domain.Address;
 import br.com.joshua.baseproject.domain.Person;
 import br.com.joshua.baseproject.dto.PersonDto;
 import br.com.joshua.baseproject.repository.PersonRepository;
@@ -31,16 +34,21 @@ class BaseprojectApplicationTests {
 	
 	@Mock(answer = Answers.RETURNS_SMART_NULLS)
 	PersonService service;
+	
+	@Autowired
+	private ModelMapper modelMapper;
 
 	public Person person = null;
+	public Address address = null;
 	public PersonDto personDto = null;
 
 	@BeforeEach
 	public void setUp() {
 		MockitoAnnotations.openMocks(this);
 
-		person = new Person(1L, "Gina", "gina@gmail.com", LocalDate.now());
-		personDto = new PersonDto(person.getId(), person.getName(), person.getEmail(), person.getBirthDate());
+		address = new Address(1L, "Street Test", "District Test", 123);
+		person = new Person(1L, "Gina", "gina@gmail.com", LocalDate.now(), address);
+		personDto = modelMapper.map(person, PersonDto.class);
 
 	}
 
@@ -69,10 +77,16 @@ class BaseprojectApplicationTests {
 		assertEquals("Gina", response.getName());
 		assertEquals("gina@gmail.com", response.getEmail());
 		assertEquals(1L, response.getId());
+		assertEquals("Street Test", response.getAddress().getStreet());
+		assertEquals("District Test", response.getAddress().getDistrict());
+		assertEquals(123, response.getAddress().getNumber());
 		
 		assertEquals("Gina", responseDto.getName());
 		assertEquals("gina@gmail.com", responseDto.getEmail());
 		assertEquals(1L, responseDto.getId());
+		assertEquals("Street Test", responseDto.getAddress().getStreet());
+		assertEquals("District Test", responseDto.getAddress().getDistrict());
+		assertEquals(123, responseDto.getAddress().getNumber());
 	}
 
 	@Test
@@ -103,10 +117,16 @@ class BaseprojectApplicationTests {
 		assertEquals("Gina", personReturn.getName());
 		assertEquals("gina@gmail.com", personReturn.getEmail());
 		assertEquals(1L, personReturn.getId());
+		assertEquals("Street Test", personReturn.getAddress().getStreet());
+		assertEquals("District Test", personReturn.getAddress().getDistrict());
+		assertEquals(123, personReturn.getAddress().getNumber());
 		
 		assertEquals("Gina", personReturnDto.getName());
 		assertEquals("gina@gmail.com", personReturnDto.getEmail());
 		assertEquals(1L, personReturnDto.getId());
+		assertEquals("Street Test", personReturnDto.getAddress().getStreet());
+		assertEquals("District Test", personReturnDto.getAddress().getDistrict());
+		assertEquals(123, personReturnDto.getAddress().getNumber());
 	}
 
 }

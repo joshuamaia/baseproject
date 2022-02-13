@@ -1,7 +1,5 @@
 package br.com.joshua.baseproject.dto;
 
-import java.time.LocalDate;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,16 +7,14 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PersonDto {
-	
-	private Long id;
-	
-	private String name;
+public class AddressDto {
 
-	private String email;
-	
-	private LocalDate birthDate;
-	
-	private AddressDto address;
+	private Long id;
+
+	private String street;
+
+	private String district;
+
+	private Integer number;
 
 }
