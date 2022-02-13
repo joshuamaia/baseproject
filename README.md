@@ -68,7 +68,6 @@ Return:
 
 ### Method get all - GET
 
-<p>Content-Type = application/json</p>
 <p>URL: localhost:8080/api/persons/0/1</p>
 
 Return:
@@ -92,7 +91,6 @@ Return:
 
 ### Method get one - GET
 
-<p>Content-Type = application/json</p>
 <p>URL: localhost:8080/api/persons/1</p>
 
 Return:
@@ -114,7 +112,6 @@ Return:
 
 ### Method delete - DELETE
 
-<p>Content-Type = application/json</p>
 <p>URL: localhost:8080/api/persons/1</p>
 
 Return: No content
