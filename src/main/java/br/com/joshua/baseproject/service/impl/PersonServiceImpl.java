@@ -1,11 +1,10 @@
 package br.com.joshua.baseproject.service.impl;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -40,15 +39,22 @@ public class PersonServiceImpl implements PersonService, Conveter<Person, Person
 		return convertFromEntity(person.get());
 	}
 
-	@Override
-	public List<PersonDto> findAll(Integer page, Integer size) {
-		PageRequest pageRequest = PageRequest.of(page, size);
-		return this.repository.findAll(pageRequest).stream().map(p -> convertFromEntity(p)).collect(Collectors.toList());
-	}
+	
 
 	@Override
 	public void delete(Long id) {
 		this.repository.deleteById(id);
+	}
+	
+	@Override
+	public Page<PersonDto> searchAllPage(Integer page, Integer size, String wordSearch) {
+		PageRequest pageRequest = PageRequest.of(page, size);
+		if (wordSearch == null || wordSearch.trim().isEmpty()) {
+			return repository.findAll(pageRequest).map(this::convertFromEntity);
+		}
+		wordSearch = wordSearch.toLowerCase();
+		return repository.searchAllPage(wordSearch, pageRequest).map(this::convertFromEntity);
+		
 	}
 
 	@Override
@@ -60,5 +66,9 @@ public class PersonServiceImpl implements PersonService, Conveter<Person, Person
 	public Person convertFromDTO(PersonDto dto) {
 		return modelMapper.map(dto, Person.class);
 	}
+
+	
+
+	
 
 }

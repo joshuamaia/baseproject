@@ -1,8 +1,7 @@
 package br.com.joshua.baseproject.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,10 +23,17 @@ public class PersonController {
 	@Autowired
 	private PersonService service;
 
+	@GetMapping("/{page}/{size}/{wordSearch}")
+	public ResponseEntity<Page<PersonDto>> getAll(@PathVariable Integer page, @PathVariable Integer size,
+			@PathVariable(required = false) String wordSearch) {
+		Page<PersonDto> persons = service.searchAllPage(page, size, wordSearch);
+		return new ResponseEntity<Page<PersonDto>>(persons, HttpStatus.OK);
+	}
+
 	@GetMapping("/{page}/{size}")
-	public ResponseEntity<List<PersonDto>> getAll(@PathVariable Integer page, @PathVariable Integer size) {
-		List<PersonDto> persons = service.findAll(page, size);
-		return new ResponseEntity<List<PersonDto>>(persons, HttpStatus.OK);
+	public ResponseEntity<Page<PersonDto>> getAll(@PathVariable Integer page, @PathVariable Integer size) {
+		Page<PersonDto> persons = service.searchAllPage(page, size, null);
+		return new ResponseEntity<Page<PersonDto>>(persons, HttpStatus.OK);
 	}
 
 	@PostMapping
