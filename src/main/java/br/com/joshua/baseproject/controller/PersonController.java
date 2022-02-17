@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.joshua.baseproject.dto.PersonDto;
-import br.com.joshua.baseproject.enums.GenderEnum;
 import br.com.joshua.baseproject.service.PersonService;
 
 @RestController
@@ -35,12 +34,6 @@ public class PersonController {
 	public ResponseEntity<Page<PersonDto>> getAll(@PathVariable Integer page, @PathVariable Integer size) {
 		Page<PersonDto> persons = service.searchAllPage(page, size, null);
 		return new ResponseEntity<Page<PersonDto>>(persons, HttpStatus.OK);
-	}
-	
-	@GetMapping("/gender")
-	public ResponseEntity<GenderEnum[]> getAll() {
-		GenderEnum[] genders = GenderEnum.values();
-		return new ResponseEntity<GenderEnum[]>(genders, HttpStatus.OK);
 	}
 
 	@PostMapping
