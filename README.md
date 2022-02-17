@@ -11,9 +11,17 @@ Body:
 
 ```JSON
 {
-    "name" : "Jackson",
-    "email" : "jackson@gmail.com",
-    "birthDate" : "2000-11-26"
+    "name": "Marian Lemans",
+    "email": "marian@gmail.com",
+    "birthDate": "1997-09-23",
+    "gender": {
+        "description": "Male"
+    },
+    "address": {
+        "street": "Street Teste",
+        "district": "District Teste",
+        "number": 123
+    }
 }
 ```
 
@@ -21,10 +29,19 @@ Return:
 
 ```JSON
 {
-    "id": 1,
-    "name": "Jackson",
-    "email": "jackson@gmail.com",
-    "birthDate": "2000-11-26"
+    "id": 2,
+    "name": "Marian Lemans",
+    "email": "marian@gmail.com",
+    "birthDate": "1997-09-23",
+    "gender": {
+        "description": "Male"
+    },
+    "address": {
+        "id": 2,
+        "street": "Street Teste",
+        "district": "District Teste",
+        "number": 123
+    }
 }
 ```
 
@@ -37,14 +54,18 @@ Body:
 
 ```JSON
 {
-        "id": 1,
-        "name": "Jackson",
-        "email": "jackson@gmail.com",
-        "birthDate": "2000-11-26",
-    "address" : {
-        "street" : "Street Test 2",
-        "district" : "District Test 2",
-        "number" : 123
+    "id": 2,
+    "name": "Marian Lemans",
+    "email": "marian@gmail.com",
+    "birthDate": "1997-09-23",
+    "gender": {
+        "description": "Male"
+    },
+    "address": {
+        "id": 2,
+        "street": "Street Teste",
+        "district": "District Teste",
+        "number": 123
     }
 }
 ```
@@ -53,14 +74,17 @@ Return:
 
 ```JSON
 {
-    "id": 1,
-    "name": "Jackson",
-    "email": "jackson@gmail.com",
-    "birthDate": "2000-11-26",
+    "id": 2,
+    "name": "Marian Lemans",
+    "email": "marian@gmail.com",
+    "birthDate": "1997-09-23",
+    "gender": {
+        "description": "Male"
+    },
     "address": {
         "id": 2,
-        "street": "Street Test 2",
-        "district": "District Test 2",
+        "street": "Street Teste",
+        "district": "District Teste",
         "number": 123
     }
 }
@@ -76,22 +100,13 @@ Return:
 {
     "content": [
         {
-            "id": 2,
-            "name": "Marian Lemans",
-            "email": "marian@gmail.com",
-            "birthDate": "1997-09-23",
-            "address": {
-                "id": 1,
-                "street": "Street Teste",
-                "district": "District Teste",
-                "number": 123
-            }
-        },
-        {
             "id": 8,
             "name": "Martina",
             "email": "martina@gmail.com",
             "birthDate": "2022-02-16",
+            "gender": {
+                "description": "Female"
+            },
             "address": {
                 "id": 8,
                 "street": "Street Teste",
@@ -100,10 +115,28 @@ Return:
             }
         },
         {
+            "id": 9,
+            "name": "Denis Rodman",
+            "email": "denis@gmail.com",
+            "birthDate": "2022-02-02",
+            "gender": {
+                "description": "Male"
+            },
+            "address": {
+                "id": 9,
+                "street": "Street Test 4",
+                "district": "District Teste",
+                "number": 67
+            }
+        },
+        {
             "id": 10,
-            "name": "Robbin Williama",
+            "name": "Robbin William",
             "email": "robbin@gmail.com",
             "birthDate": "2022-02-07",
+            "gender": {
+                "description": "Male"
+            },
             "address": {
                 "id": 10,
                 "street": "Street Test 4",
@@ -112,15 +145,18 @@ Return:
             }
         },
         {
-            "id": 9,
-            "name": "Denis Rodman",
-            "email": "denis@gmail.com",
-            "birthDate": "2022-02-02",
+            "id": 2,
+            "name": "Marian Lemans",
+            "email": "marian@gmail.com",
+            "birthDate": "1997-09-23",
+            "gender": {
+                "description": "Male"
+            },
             "address": {
-                "id": 9,
-                "street": "Street Test 4",
+                "id": 1,
+                "street": "Street Teste",
                 "district": "District Teste",
-                "number": 67
+                "number": 123
             }
         }
     ],
@@ -131,14 +167,14 @@ Return:
             "unsorted": true
         },
         "offset": 0,
-        "pageNumber": 0,
         "pageSize": 10,
+        "pageNumber": 0,
         "paged": true,
         "unpaged": false
     },
-    "last": true,
     "totalPages": 1,
     "totalElements": 4,
+    "last": true,
     "size": 10,
     "number": 0,
     "sort": {
@@ -154,7 +190,7 @@ Return:
 
 ### Method get all pageable with word search - GET
 
-<p>URL: http://localhost:8080/api/persons/0/10/ma</p>
+<p>URL: http://localhost:8080/api/persons/0/10/de</p>
 
 Return:
 
@@ -166,6 +202,9 @@ Return:
             "name": "Denis Rodman",
             "email": "denis@gmail.com",
             "birthDate": "2022-02-02",
+            "gender": {
+                "description": "Male"
+            },
             "address": {
                 "id": 9,
                 "street": "Street Test 4",
@@ -186,9 +225,9 @@ Return:
         "paged": true,
         "unpaged": false
     },
-    "last": true,
-    "totalElements": 1,
     "totalPages": 1,
+    "totalElements": 1,
+    "last": true,
     "size": 10,
     "number": 0,
     "sort": {
@@ -204,20 +243,23 @@ Return:
 
 ### Method get one - GET
 
-<p>URL: localhost:8080/api/persons/1</p>
+<p>URL: localhost:8080/api/persons/2</p>
 
 Return:
 
 ```JSON
 {
-    "id": 1,
-    "name": "Jackson",
-    "email": "jackson@gmail.com",
-    "birthDate": "2000-11-26",
+    "id": 2,
+    "name": "Marian Lemans",
+    "email": "marian@gmail.com",
+    "birthDate": "1997-09-23",
+    "gender": {
+        "description": "Female"
+    },
     "address": {
-        "id": 2,
-        "street": "Street Test 2",
-        "district": "District Test 2",
+        "id": 1,
+        "street": "Street Teste",
+        "district": "District Teste",
         "number": 123
     }
 }
