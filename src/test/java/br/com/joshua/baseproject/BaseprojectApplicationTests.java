@@ -23,6 +23,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import br.com.joshua.baseproject.domain.Address;
 import br.com.joshua.baseproject.domain.Person;
 import br.com.joshua.baseproject.dto.PersonDto;
+import br.com.joshua.baseproject.enums.GenderEnum;
 import br.com.joshua.baseproject.repository.PersonRepository;
 import br.com.joshua.baseproject.service.PersonService;
 
@@ -31,10 +32,10 @@ class BaseprojectApplicationTests {
 
 	@Mock(answer = Answers.RETURNS_SMART_NULLS)
 	PersonRepository repository;
-	
+
 	@Mock(answer = Answers.RETURNS_SMART_NULLS)
 	PersonService service;
-	
+
 	@Autowired
 	private ModelMapper modelMapper;
 
@@ -47,7 +48,7 @@ class BaseprojectApplicationTests {
 		MockitoAnnotations.openMocks(this);
 
 		address = new Address(1L, "Street Test", "District Test", 123);
-		person = new Person(1L, "Gina", "gina@gmail.com", LocalDate.now(), address);
+		person = new Person(1L, "Gina", "gina@gmail.com", LocalDate.now(), GenderEnum.MALE, address);
 		personDto = modelMapper.map(person, PersonDto.class);
 
 	}
@@ -62,7 +63,7 @@ class BaseprojectApplicationTests {
 				return person;
 			}
 		});
-		
+
 		when(service.save(any(PersonDto.class))).then(new Answer<PersonDto>() {
 
 			@Override
@@ -77,13 +78,15 @@ class BaseprojectApplicationTests {
 		assertEquals("Gina", response.getName());
 		assertEquals("gina@gmail.com", response.getEmail());
 		assertEquals(1L, response.getId());
+		assertEquals(GenderEnum.MALE, response.getGender());
 		assertEquals("Street Test", response.getAddress().getStreet());
 		assertEquals("District Test", response.getAddress().getDistrict());
 		assertEquals(123, response.getAddress().getNumber());
-		
+
 		assertEquals("Gina", responseDto.getName());
 		assertEquals("gina@gmail.com", responseDto.getEmail());
 		assertEquals(1L, responseDto.getId());
+		assertEquals(GenderEnum.MALE, responseDto.getGender());
 		assertEquals("Street Test", responseDto.getAddress().getStreet());
 		assertEquals("District Test", responseDto.getAddress().getDistrict());
 		assertEquals(123, responseDto.getAddress().getNumber());
@@ -92,38 +95,40 @@ class BaseprojectApplicationTests {
 	@Test
 	public void deletePersonTest() {
 		Optional<Person> optionalPerson = Optional.of(person);
-		when(repository.findById(1L)).thenReturn(optionalPerson);		
+		when(repository.findById(1L)).thenReturn(optionalPerson);
 
 		repository.deleteById(1L);
 
 		verify(repository, times(1)).deleteById(1L);
 	}
-	
+
 	@Test
 	public void findOnePersonTest() {
 		Optional<Person> optionalPerson = Optional.of(person);
 		when(repository.findById(1L)).thenReturn(optionalPerson);
-		
+
 		when(service.findOne(1L)).thenReturn(personDto);
 
 		Optional<Person> personReturnOptional = repository.findById(1L);
 		Person personReturn = personReturnOptional.get();
-		
+
 		PersonDto personReturnDto = service.findOne(1L);
-		
+
 		verify(repository, times(1)).findById(1L);
 		verify(service, times(1)).findOne(1L);
-		
+
 		assertEquals("Gina", personReturn.getName());
 		assertEquals("gina@gmail.com", personReturn.getEmail());
 		assertEquals(1L, personReturn.getId());
+		assertEquals(GenderEnum.MALE, personReturn.getGender());
 		assertEquals("Street Test", personReturn.getAddress().getStreet());
 		assertEquals("District Test", personReturn.getAddress().getDistrict());
 		assertEquals(123, personReturn.getAddress().getNumber());
-		
+
 		assertEquals("Gina", personReturnDto.getName());
 		assertEquals("gina@gmail.com", personReturnDto.getEmail());
 		assertEquals(1L, personReturnDto.getId());
+		assertEquals(GenderEnum.MALE, personReturnDto.getGender());
 		assertEquals("Street Test", personReturnDto.getAddress().getStreet());
 		assertEquals("District Test", personReturnDto.getAddress().getDistrict());
 		assertEquals(123, personReturnDto.getAddress().getNumber());
