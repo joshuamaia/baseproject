@@ -1,4 +1,4 @@
-package br.com.joshua.baseproject.configuration;
+package br.com.joshua.baseproject.config;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
