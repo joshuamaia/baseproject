@@ -25,9 +25,7 @@ public class PersonServiceImpl implements PersonService, Conveter<Person, Person
 
 	@Override
 	public PersonDto save(PersonDto entity) {
-		Person person = convertFromDTO(entity);
-		person = repository.save(person);
-		return convertFromEntity(person);
+		return convertFromEntity(repository.save(convertFromDTO(entity)));
 	}
 
 	@Override
@@ -39,13 +37,11 @@ public class PersonServiceImpl implements PersonService, Conveter<Person, Person
 		return convertFromEntity(person.get());
 	}
 
-	
-
 	@Override
 	public void delete(Long id) {
 		this.repository.deleteById(id);
 	}
-	
+
 	@Override
 	public Page<PersonDto> searchAllPage(Integer page, Integer size, String wordSearch) {
 		PageRequest pageRequest = PageRequest.of(page, size);
@@ -54,7 +50,7 @@ public class PersonServiceImpl implements PersonService, Conveter<Person, Person
 		}
 		wordSearch = wordSearch.toLowerCase();
 		return repository.searchAllPage(wordSearch, pageRequest).map(this::convertFromEntity);
-		
+
 	}
 
 	@Override
@@ -66,9 +62,5 @@ public class PersonServiceImpl implements PersonService, Conveter<Person, Person
 	public Person convertFromDTO(PersonDto dto) {
 		return modelMapper.map(dto, Person.class);
 	}
-
-	
-
-	
 
 }
