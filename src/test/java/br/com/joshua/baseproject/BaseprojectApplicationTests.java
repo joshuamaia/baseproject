@@ -54,15 +54,7 @@ class BaseprojectApplicationTests {
 	}
 
 	@Test
-	public void savePersonTest() {
-
-		when(repository.save(any(Person.class))).then(new Answer<Person>() {
-
-			@Override
-			public Person answer(InvocationOnMock invocation) throws Throwable {
-				return person;
-			}
-		});
+	public void should_savePerson_when_use_service() {
 
 		when(service.save(any(PersonDto.class))).then(new Answer<PersonDto>() {
 
@@ -72,8 +64,29 @@ class BaseprojectApplicationTests {
 			}
 		});
 
-		Person response = repository.save(person);
 		PersonDto responseDto = service.save(personDto);
+
+		assertEquals("Gina", responseDto.getName());
+		assertEquals("gina@gmail.com", responseDto.getEmail());
+		assertEquals(1L, responseDto.getId());
+		assertEquals(GenderEnum.MALE, responseDto.getGender());
+		assertEquals("Street Test", responseDto.getAddress().getStreet());
+		assertEquals("District Test", responseDto.getAddress().getDistrict());
+		assertEquals(123, responseDto.getAddress().getNumber());
+	}
+
+	@Test
+	public void should_savePerson_when_use_repository() {
+
+		when(repository.save(any(Person.class))).then(new Answer<Person>() {
+
+			@Override
+			public Person answer(InvocationOnMock invocation) throws Throwable {
+				return person;
+			}
+		});
+
+		Person response = repository.save(person);
 
 		assertEquals("Gina", response.getName());
 		assertEquals("gina@gmail.com", response.getEmail());
@@ -83,13 +96,6 @@ class BaseprojectApplicationTests {
 		assertEquals("District Test", response.getAddress().getDistrict());
 		assertEquals(123, response.getAddress().getNumber());
 
-		assertEquals("Gina", responseDto.getName());
-		assertEquals("gina@gmail.com", responseDto.getEmail());
-		assertEquals(1L, responseDto.getId());
-		assertEquals(GenderEnum.MALE, responseDto.getGender());
-		assertEquals("Street Test", responseDto.getAddress().getStreet());
-		assertEquals("District Test", responseDto.getAddress().getDistrict());
-		assertEquals(123, responseDto.getAddress().getNumber());
 	}
 
 	@Test
@@ -103,27 +109,13 @@ class BaseprojectApplicationTests {
 	}
 
 	@Test
-	public void findOnePersonTest() {
-		Optional<Person> optionalPerson = Optional.of(person);
-		when(repository.findById(1L)).thenReturn(optionalPerson);
+	public void should_findPerson_when_use_service() {
 
 		when(service.findOne(1L)).thenReturn(personDto);
 
-		Optional<Person> personReturnOptional = repository.findById(1L);
-		Person personReturn = personReturnOptional.get();
-
 		PersonDto personReturnDto = service.findOne(1L);
 
-		verify(repository, times(1)).findById(1L);
 		verify(service, times(1)).findOne(1L);
-
-		assertEquals("Gina", personReturn.getName());
-		assertEquals("gina@gmail.com", personReturn.getEmail());
-		assertEquals(1L, personReturn.getId());
-		assertEquals(GenderEnum.MALE, personReturn.getGender());
-		assertEquals("Street Test", personReturn.getAddress().getStreet());
-		assertEquals("District Test", personReturn.getAddress().getDistrict());
-		assertEquals(123, personReturn.getAddress().getNumber());
 
 		assertEquals("Gina", personReturnDto.getName());
 		assertEquals("gina@gmail.com", personReturnDto.getEmail());
@@ -132,6 +124,25 @@ class BaseprojectApplicationTests {
 		assertEquals("Street Test", personReturnDto.getAddress().getStreet());
 		assertEquals("District Test", personReturnDto.getAddress().getDistrict());
 		assertEquals(123, personReturnDto.getAddress().getNumber());
+	}
+
+	@Test
+	public void should_findPerson_when_use_repository() {
+		Optional<Person> optionalPerson = Optional.of(person);
+		when(repository.findById(1L)).thenReturn(optionalPerson);
+
+		Optional<Person> personReturnOptional = repository.findById(1L);
+		Person personReturn = personReturnOptional.get();
+
+		verify(repository, times(1)).findById(1L);
+
+		assertEquals("Gina", personReturn.getName());
+		assertEquals("gina@gmail.com", personReturn.getEmail());
+		assertEquals(1L, personReturn.getId());
+		assertEquals(GenderEnum.MALE, personReturn.getGender());
+		assertEquals("Street Test", personReturn.getAddress().getStreet());
+		assertEquals("District Test", personReturn.getAddress().getDistrict());
+		assertEquals(123, personReturn.getAddress().getNumber());
 	}
 
 }
