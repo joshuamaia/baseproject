@@ -99,7 +99,7 @@ class BaseprojectApplicationTests {
 	}
 
 	@Test
-	public void deletePersonTest() {
+	public void should_deletePerson_when_use_repository() {
 		Optional<Person> optionalPerson = Optional.of(person);
 		when(repository.findById(1L)).thenReturn(optionalPerson);
 
