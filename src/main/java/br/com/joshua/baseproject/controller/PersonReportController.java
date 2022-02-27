@@ -24,7 +24,7 @@ public class PersonReportController {
 	private PersonReportService service;
 
 	@GetMapping("/pdf")
-	public ResponseEntity<byte[]> gerarRelatorioPdfVolume3() throws JRException, SQLException {
+	public ResponseEntity<byte[]> generateReportPersons() throws JRException, SQLException {
 
 		byte[] relatorio = service.generatePersonReport();
 		return ok().contentType(APPLICATION_PDF) //
