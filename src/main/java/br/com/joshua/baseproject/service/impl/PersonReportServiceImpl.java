@@ -1,8 +1,12 @@
 package br.com.joshua.baseproject.service.impl;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.sql.DataSource;
@@ -10,6 +14,8 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.joshua.baseproject.domain.Person;
+import br.com.joshua.baseproject.repository.PersonRepository;
 import br.com.joshua.baseproject.service.PersonReportService;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -22,10 +28,13 @@ import net.sf.jasperreports.engine.util.JRLoader;
 public class PersonReportServiceImpl implements PersonReportService {
 	
 	@Autowired
+	private PersonRepository repository;
+	
+	@Autowired
 	DataSource dataSource;
 
 	@Override
-	public byte[] generatePersonReport() {
+	public byte[] generatePersonReportPdf() {
 		try {
 			String fileReport = "/report/person_report.jasper";
 			JasperReport compile = (JasperReport) JRLoader
@@ -40,6 +49,24 @@ public class PersonReportServiceImpl implements PersonReportService {
 		} catch (JRException jrpe) {
 			throw new RuntimeException("Report Error", jrpe);
 		}
+	}
+
+	@Override
+	public byte[] generatePersonReportCsv() {
+		StringBuilder str = new StringBuilder();		
+		List<Person> persons = repository.findAll();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		
+		str.append("Name,E-mail,BirthDate");
+		
+		for (Person person : persons) {
+			str.append(System.lineSeparator());
+			
+			str.append(person.getName()).append(",").append(person.getEmail()).append(",").append(person.getBirthDate().format(formatter));
+		}
+		
+		Charset charset = StandardCharsets.UTF_8;
+		return str.toString().getBytes(charset);
 	}
 
 }

@@ -2,6 +2,8 @@ package br.com.joshua.baseproject.service;
 
 public interface PersonReportService {
 	
-	public byte[] generatePersonReport();
+	public byte[] generatePersonReportPdf();
+	
+	public byte[] generatePersonReportCsv();
 
 }
