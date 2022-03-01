@@ -25,7 +25,7 @@ public class PersonServiceImpl implements PersonService, Converte<Person, Person
 
 	@Override
 	public PersonDto save(PersonDto entity) {
-		return convertFromEntity(repository.save(convertFromDTO(entity)));
+		return convertFromDTO(repository.save(convertFromEntity(entity)));
 	}
 
 	@Override
@@ -34,7 +34,7 @@ public class PersonServiceImpl implements PersonService, Converte<Person, Person
 		if (!person.isPresent()) {
 			throw new RuntimeException("Entity not present!");
 		}
-		return convertFromEntity(person.get());
+		return convertFromDTO(person.get());
 	}
 
 	@Override
@@ -46,21 +46,23 @@ public class PersonServiceImpl implements PersonService, Converte<Person, Person
 	public Page<PersonDto> searchAllPage(Integer page, Integer size, String wordSearch) {
 		PageRequest pageRequest = PageRequest.of(page, size);
 		if (wordSearch == null || wordSearch.trim().isEmpty()) {
-			return repository.findAll(pageRequest).map(this::convertFromEntity);
+			return repository.findAll(pageRequest).map(this::convertFromDTO);
 		}
 		wordSearch = wordSearch.toLowerCase();
-		return repository.searchAllPage(wordSearch, pageRequest).map(this::convertFromEntity);
+		return repository.searchAllPage(wordSearch, pageRequest).map(this::convertFromDTO);
 
 	}
 
 	@Override
-	public PersonDto convertFromEntity(Person entity) {
+	public Person convertFromEntity(PersonDto dto) {
+		return modelMapper.map(dto, Person.class);
+	}
+
+	@Override
+	public PersonDto convertFromDTO(Person entity) {
 		return modelMapper.map(entity, PersonDto.class);
 	}
 
-	@Override
-	public Person convertFromDTO(PersonDto dto) {
-		return modelMapper.map(dto, Person.class);
-	}
+	
 
 }
