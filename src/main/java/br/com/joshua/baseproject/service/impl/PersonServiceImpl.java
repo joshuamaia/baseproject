@@ -12,10 +12,10 @@ import br.com.joshua.baseproject.domain.Person;
 import br.com.joshua.baseproject.dto.PersonDto;
 import br.com.joshua.baseproject.repository.PersonRepository;
 import br.com.joshua.baseproject.service.PersonService;
-import br.com.joshua.baseproject.util.Conveter;
+import br.com.joshua.baseproject.util.Converte;
 
 @Service
-public class PersonServiceImpl implements PersonService, Conveter<Person, PersonDto> {
+public class PersonServiceImpl implements PersonService, Converte<Person, PersonDto> {
 
 	@Autowired
 	private ModelMapper modelMapper;
