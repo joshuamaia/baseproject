@@ -13,7 +13,7 @@ import lombok.Getter;
 public enum ExpenseEnum {
 
 	EXPENSE("Expense"),
-	REVENUE("revenue");
+	REVENUE("Revenue");
 	
 	String description;
 	
