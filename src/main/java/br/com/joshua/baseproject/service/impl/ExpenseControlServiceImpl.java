@@ -10,38 +10,38 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import br.com.joshua.baseproject.domain.Person;
-import br.com.joshua.baseproject.dto.PersonDto;
-import br.com.joshua.baseproject.repository.PersonRepository;
-import br.com.joshua.baseproject.service.PersonService;
+import br.com.joshua.baseproject.domain.ExpenseControl;
+import br.com.joshua.baseproject.dto.ExpenseControlDto;
+import br.com.joshua.baseproject.repository.ExpenseControlRepository;
+import br.com.joshua.baseproject.service.ExpenseControlService;
 import br.com.joshua.baseproject.util.Converte;
 
 @Service
-public class PersonServiceImpl implements PersonService, Converte<Person, PersonDto> {
+public class ExpenseControlServiceImpl implements ExpenseControlService, Converte<ExpenseControl, ExpenseControlDto> {
 
 	@Autowired
 	private ModelMapper modelMapper;
 
 	@Autowired
-	private PersonRepository repository;
+	private ExpenseControlRepository repository;
 
 	@Override
-	public List<PersonDto> getAll() {
+	public List<ExpenseControlDto> getAll() {
 		return repository.findAll().stream().map(this::convertFromDTO).collect(Collectors.toList());
 	}
 
 	@Override
-	public PersonDto save(PersonDto entity) {
+	public ExpenseControlDto save(ExpenseControlDto entity) {
 		return convertFromDTO(repository.save(convertFromEntity(entity)));
 	}
 
 	@Override
-	public PersonDto findOne(Long id) {
-		Optional<Person> person = repository.findById(id);
-		if (!person.isPresent()) {
+	public ExpenseControlDto findOne(Long id) {
+		Optional<ExpenseControl> ExpenseControl = repository.findById(id);
+		if (!ExpenseControl.isPresent()) {
 			throw new RuntimeException("Entity not present!");
 		}
-		return convertFromDTO(person.get());
+		return convertFromDTO(ExpenseControl.get());
 	}
 
 	@Override
@@ -50,7 +50,7 @@ public class PersonServiceImpl implements PersonService, Converte<Person, Person
 	}
 
 	@Override
-	public Page<PersonDto> searchAllPage(Integer page, Integer size, String wordSearch) {
+	public Page<ExpenseControlDto> searchAllPage(Integer page, Integer size, String wordSearch) {
 		PageRequest pageRequest = PageRequest.of(page, size);
 		if (wordSearch == null || wordSearch.trim().isEmpty()) {
 			return repository.findAll(pageRequest).map(this::convertFromDTO);
@@ -61,13 +61,13 @@ public class PersonServiceImpl implements PersonService, Converte<Person, Person
 	}
 
 	@Override
-	public Person convertFromEntity(PersonDto dto) {
-		return modelMapper.map(dto, Person.class);
+	public ExpenseControl convertFromEntity(ExpenseControlDto dto) {
+		return modelMapper.map(dto, ExpenseControl.class);
 	}
 
 	@Override
-	public PersonDto convertFromDTO(Person entity) {
-		return modelMapper.map(entity, PersonDto.class);
+	public ExpenseControlDto convertFromDTO(ExpenseControl entity) {
+		return modelMapper.map(entity, ExpenseControlDto.class);
 	}
 
 }

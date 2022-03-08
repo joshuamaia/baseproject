@@ -1,5 +1,7 @@
 package br.com.joshua.baseproject.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -22,6 +24,12 @@ public class PersonController {
 
 	@Autowired
 	private PersonService service;
+
+	@GetMapping("/list")
+	public ResponseEntity<List<PersonDto>> getAll() {
+		List<PersonDto> persons = service.getAll();
+		return new ResponseEntity<List<PersonDto>>(persons, HttpStatus.OK);
+	}
 
 	@GetMapping("/{page}/{size}/{wordSearch}")
 	public ResponseEntity<Page<PersonDto>> getAll(@PathVariable Integer page, @PathVariable Integer size,
