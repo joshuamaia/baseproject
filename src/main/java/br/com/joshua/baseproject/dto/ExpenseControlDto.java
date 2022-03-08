@@ -1,5 +1,6 @@
 package br.com.joshua.baseproject.dto;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import br.com.joshua.baseproject.domain.Person;
@@ -19,6 +20,8 @@ public class ExpenseControlDto {
 	private String description;
 
 	private LocalDate dateExpense;
+	
+	private BigDecimal value;
 	
 	private Person person;
 

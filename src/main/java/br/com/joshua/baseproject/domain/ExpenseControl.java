@@ -1,9 +1,11 @@
 package br.com.joshua.baseproject.domain;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import br.com.joshua.baseproject.enums.ExpenseEnum;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -34,6 +36,9 @@ public class ExpenseControl implements Serializable {
 	private String description;
 
 	private LocalDate dateExpense;
+	
+	@Column( precision = 10, scale = 2)
+	private BigDecimal value;
 	
 	@ManyToOne
 	@JoinColumn(name = "person_id")
