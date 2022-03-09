@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.joshua.baseproject.dto.ExpenseControlDto;
+import br.com.joshua.baseproject.dto.ExpenseSumDto;
 import br.com.joshua.baseproject.service.ExpenseControlService;
 
 @RestController
@@ -24,6 +25,14 @@ public class ExpenseControlController {
 
 	@Autowired
 	private ExpenseControlService service;
+	
+	
+	
+	@GetMapping("/expense-sum/{personId}")
+	public ResponseEntity<List<ExpenseSumDto>> expenseSumByPersonId(@PathVariable("personId") Long personId) {
+		List<ExpenseSumDto> expenseSum = service.searchSumExpense(personId);
+		return new ResponseEntity<List<ExpenseSumDto>>(expenseSum, HttpStatus.OK);
+	}
 
 	@GetMapping("/list")
 	public ResponseEntity<List<ExpenseControlDto>> getAll() {

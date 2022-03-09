@@ -14,6 +14,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,13 +32,17 @@ public class ExpenseControl implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	private ExpenseEnum expense;
 
+	@NotEmpty
 	private String description;
 
+	@NotEmpty
 	private LocalDate dateExpense;
 	
+	@NotNull
 	@Column( precision = 10, scale = 2)
 	private BigDecimal value;
 	

@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import br.com.joshua.baseproject.domain.Person;
 
 public interface PersonRepository extends JpaRepository<Person, Long> {
-	
+
 	@Query("FROM Person p WHERE LOWER(p.name) like %:wordSearch% OR LOWER(p.email) like %:wordSearch%")
 	Page<Person> searchAllPage(@Param("wordSearch") String wordSearch, Pageable pageable);
 

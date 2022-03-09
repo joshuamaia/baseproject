@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.joshua.baseproject.domain.ExpenseControl;
 import br.com.joshua.baseproject.dto.ExpenseControlDto;
+import br.com.joshua.baseproject.dto.ExpenseSumDto;
 import br.com.joshua.baseproject.repository.ExpenseControlRepository;
 import br.com.joshua.baseproject.service.ExpenseControlService;
 import br.com.joshua.baseproject.util.Converte;
@@ -58,6 +59,11 @@ public class ExpenseControlServiceImpl implements ExpenseControlService, Convert
 		wordSearch = wordSearch.toLowerCase();
 		return repository.searchAllPage(wordSearch, pageRequest).map(this::convertFromDTO);
 
+	}
+
+	@Override
+	public List<ExpenseSumDto> searchSumExpense(Long personId) {
+		return this.repository.searchSumExpense(personId);
 	}
 
 	@Override

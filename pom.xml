@@ -56,8 +56,12 @@
 			<artifactId>modelmapper</artifactId>
 			<version>2.4.4</version>
 		</dependency>
-		
-			<!-- JASPER REPORTS -->
+		<dependency>
+			<groupId>org.hibernate.validator</groupId>
+			<artifactId>hibernate-validator</artifactId>
+		</dependency>
+
+		<!-- JASPER REPORTS -->
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
@@ -69,9 +73,9 @@
 			<version>${jasperreports.version}</version>
 		</dependency>
 		<dependency>
-    		<groupId>net.sf.jasperreports</groupId>
-    		<artifactId>jasperreports-functions</artifactId>
-    		<version>${jasperreports.version}</version>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports-functions</artifactId>
+			<version>${jasperreports.version}</version>
 		</dependency>
 	</dependencies>
 

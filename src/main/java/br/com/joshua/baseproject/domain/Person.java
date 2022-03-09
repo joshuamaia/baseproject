@@ -15,6 +15,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,14 +33,18 @@ public class Person implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@NotEmpty
 	@Column(nullable = false, length = 100)
 	private String name;
 
+	@NotEmpty
 	@Column(nullable = false, length = 100)
 	private String email;
 
+	@NotNull
 	private LocalDate birthDate;
 	
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	private GenderEnum gender;
 
