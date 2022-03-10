@@ -28,7 +28,7 @@ import br.com.joshua.baseproject.repository.PersonRepository;
 import br.com.joshua.baseproject.service.PersonService;
 
 @SpringBootTest
-class BaseprojectApplicationTests {
+class PersonTests {
 
 	@Mock(answer = Answers.RETURNS_SMART_NULLS)
 	PersonRepository repository;
@@ -39,9 +39,9 @@ class BaseprojectApplicationTests {
 	@Autowired
 	private ModelMapper modelMapper;
 
-	public Person person = null;
-	public Address address = null;
-	public PersonDto personDto = null;
+	private Person person = null;
+	private Address address = null;
+	private PersonDto personDto = null;
 
 	@BeforeEach
 	public void setUp() {
