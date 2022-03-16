@@ -31,16 +31,10 @@ public class PersonController {
 		return new ResponseEntity<List<PersonDto>>(persons, HttpStatus.OK);
 	}
 
-	@GetMapping("/{page}/{size}/{wordSearch}")
+	@GetMapping(value = { "/{page}/{size}", "/{page}/{size}/{wordSearch}" })
 	public ResponseEntity<Page<PersonDto>> getAll(@PathVariable Integer page, @PathVariable Integer size,
-			@PathVariable String wordSearch) {
+			@PathVariable(required = false) String wordSearch) {
 		Page<PersonDto> persons = service.searchAllPage(page, size, wordSearch);
-		return new ResponseEntity<Page<PersonDto>>(persons, HttpStatus.OK);
-	}
-
-	@GetMapping("/{page}/{size}")
-	public ResponseEntity<Page<PersonDto>> getAll(@PathVariable Integer page, @PathVariable Integer size) {
-		Page<PersonDto> persons = service.searchAllPage(page, size, null);
 		return new ResponseEntity<Page<PersonDto>>(persons, HttpStatus.OK);
 	}
 

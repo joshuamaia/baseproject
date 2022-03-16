@@ -40,16 +40,10 @@ public class ExpenseControlController {
 		return new ResponseEntity<List<ExpenseControlDto>>(expenseControls, HttpStatus.OK);
 	}
 
-	@GetMapping("/{page}/{size}/{wordSearch}")
+	@GetMapping(value = {"/{page}/{size}", "/{page}/{size}/{wordSearch}"})
 	public ResponseEntity<Page<ExpenseControlDto>> getAll(@PathVariable Integer page, @PathVariable Integer size,
-			@PathVariable String wordSearch) {
+			@PathVariable(required = false) String wordSearch) {
 		Page<ExpenseControlDto> expenseControls = service.searchAllPage(page, size, wordSearch);
-		return new ResponseEntity<Page<ExpenseControlDto>>(expenseControls, HttpStatus.OK);
-	}
-
-	@GetMapping("/{page}/{size}")
-	public ResponseEntity<Page<ExpenseControlDto>> getAll(@PathVariable Integer page, @PathVariable Integer size) {
-		Page<ExpenseControlDto> expenseControls = service.searchAllPage(page, size, null);
 		return new ResponseEntity<Page<ExpenseControlDto>>(expenseControls, HttpStatus.OK);
 	}
 
