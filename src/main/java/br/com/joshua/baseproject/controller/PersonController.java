@@ -51,13 +51,13 @@ public class PersonController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<PersonDto> getOneById(@PathVariable(required = false) Long id) {
+	public ResponseEntity<PersonDto> getOneById(@PathVariable Long id) {
 		PersonDto person = service.findOne(id);
 		return new ResponseEntity<PersonDto>(person, HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deleteById(@PathVariable(required = false) Long id) {
+	public ResponseEntity<Void> deleteById(@PathVariable Long id) {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}

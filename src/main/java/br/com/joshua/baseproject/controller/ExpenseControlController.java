@@ -60,13 +60,13 @@ public class ExpenseControlController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<ExpenseControlDto> getOneById(@PathVariable(required = false) Long id) {
+	public ResponseEntity<ExpenseControlDto> getOneById(@PathVariable Long id) {
 		ExpenseControlDto expenseControl = service.findOne(id);
 		return new ResponseEntity<ExpenseControlDto>(expenseControl, HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deleteById(@PathVariable(required = false) Long id) {
+	public ResponseEntity<Void> deleteById(@PathVariable Long id) {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}
