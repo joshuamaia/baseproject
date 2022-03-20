@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -56,8 +58,7 @@ public class ExpenseControlController {
 
 	@Operation(summary = "Search all Expense Controls by page")
 	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", description = "Found the List of Expense Control", content = {
-					@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = ExpenseControlDto.class))) }),
+			@ApiResponse(responseCode = "200", description = "Found the Expense Sum", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ExpenseControlPage.class))),
 			@ApiResponse(responseCode = "400", description = "Invalid id supplied", content = @Content) })
 	@GetMapping(value = { "/{page}/{size}", "/{page}/{size}/{wordSearch}" })
 	public ResponseEntity<Page<ExpenseControlDto>> getAll(@PathVariable Integer page, @PathVariable Integer size,
@@ -108,5 +109,11 @@ public class ExpenseControlController {
 	public ResponseEntity<Void> deleteById(@PathVariable Long id) {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
+	}
+	
+	class ExpenseControlPage extends PageImpl<ExpenseControlDto> {
+		public ExpenseControlPage(List<ExpenseControlDto> content, Pageable pageable, long total) {
+			super(content, pageable, total);
+		}
 	}
 }

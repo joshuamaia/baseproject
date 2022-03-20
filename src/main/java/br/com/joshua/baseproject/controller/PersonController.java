@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -32,9 +34,8 @@ public class PersonController {
 	private PersonService service;
 
 	@Operation(summary = "Search all Persons")
-	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", description = "Found the List of Person", content = {
-					@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = PersonDto.class))) }),
+	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Found the List of Person", content = {
+			@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = PersonDto.class))) }),
 			@ApiResponse(responseCode = "400", description = "Invalid id supplied", content = @Content) })
 	@GetMapping("/list")
 	public ResponseEntity<List<PersonDto>> getAll() {
@@ -42,10 +43,9 @@ public class PersonController {
 		return new ResponseEntity<List<PersonDto>>(persons, HttpStatus.OK);
 	}
 
-	@Operation(summary = "Search all Persons")
+	@Operation(summary = "Search all Persons pagened")
 	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", description = "Found the List of Person", content = {
-					@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = PersonDto.class))) }),
+			@ApiResponse(responseCode = "200", description = "Found the List of Person", content = @Content(mediaType = "application/json", schema = @Schema(implementation = PersonPage.class))),
 			@ApiResponse(responseCode = "400", description = "Invalid id supplied", content = @Content) })
 	@GetMapping(value = { "/{page}/{size}", "/{page}/{size}/{wordSearch}" })
 	public ResponseEntity<Page<PersonDto>> getAll(@PathVariable Integer page, @PathVariable Integer size,
@@ -96,5 +96,11 @@ public class PersonController {
 	public ResponseEntity<Void> deleteById(@PathVariable Long id) {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
+	}
+
+	class PersonPage extends PageImpl<PersonDto> {
+		public PersonPage(List<PersonDto> content, Pageable pageable, long total) {
+			super(content, pageable, total);
+		}
 	}
 }
