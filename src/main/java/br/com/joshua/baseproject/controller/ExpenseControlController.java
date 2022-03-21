@@ -69,7 +69,7 @@ public class ExpenseControlController {
 
 	@Operation(summary = "Create Expense Control")
 	@ApiResponses(value = {
-			@ApiResponse(responseCode = "201", description = "Found the create of Expense Control", content = {
+			@ApiResponse(responseCode = "201", description = "Expense Control created with sucessful", content = {
 					@Content(mediaType = "application/json", schema = @Schema(implementation = ExpenseControlDto.class)) }),
 			@ApiResponse(responseCode = "400", description = "Invalid id supplied", content = @Content) })
 	@PostMapping
@@ -80,7 +80,7 @@ public class ExpenseControlController {
 
 	@Operation(summary = "Update Expense Control")
 	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", description = "Found the update of Expense Control", content = {
+			@ApiResponse(responseCode = "200", description = "Expense Control updated with sucessful", content = {
 					@Content(mediaType = "application/json", schema = @Schema(implementation = ExpenseControlDto.class)) }),
 			@ApiResponse(responseCode = "400", description = "Invalid id supplied", content = @Content) })
 	@PutMapping
