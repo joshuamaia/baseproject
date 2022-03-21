@@ -56,7 +56,7 @@ public class PersonController {
 
 	@Operation(summary = "Create Person")
 	@ApiResponses(value = {
-			@ApiResponse(responseCode = "201", description = "Found the create of Person", content = {
+			@ApiResponse(responseCode = "201", description = "Person created with sucessful", content = {
 					@Content(mediaType = "application/json", schema = @Schema(implementation = PersonDto.class)) }),
 			@ApiResponse(responseCode = "400", description = "Invalid id supplied", content = @Content) })
 	@PostMapping
@@ -67,7 +67,7 @@ public class PersonController {
 
 	@Operation(summary = "Update Person")
 	@ApiResponses(value = {
-			@ApiResponse(responseCode = "201", description = "Found the update of Person", content = {
+			@ApiResponse(responseCode = "201", description = "Person updated with sucessful", content = {
 					@Content(mediaType = "application/json", schema = @Schema(implementation = PersonDto.class)) }),
 			@ApiResponse(responseCode = "400", description = "Invalid id supplied", content = @Content) })
 	@PutMapping
