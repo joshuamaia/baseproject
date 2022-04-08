@@ -34,9 +34,9 @@ public class PersonReportServiceImpl implements PersonReportService {
 	DataSource dataSource;
 
 	@Override
-	public byte[] generatePersonReportPdf() {
+	public byte[] generateReportPdf(String nameReport) {
 		try {
-			String fileReport = "/report/person_report.jasper";
+			String fileReport = String.format("/report/%s.jasper" ,nameReport);
 			JasperReport compile = (JasperReport) JRLoader
 					.loadObject(this.getClass().getResourceAsStream(fileReport));
 			try (Connection connection = dataSource.getConnection()) {

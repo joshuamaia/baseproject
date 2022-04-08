@@ -2,7 +2,7 @@ package br.com.joshua.baseproject.service;
 
 public interface PersonReportService {
 	
-	public byte[] generatePersonReportPdf();
+	public byte[] generateReportPdf(String nameReport);
 	
 	public byte[] generatePersonReportCsv();
 

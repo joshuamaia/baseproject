@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="expense_report" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="be1388ff-79c2-4719-aa81-b42324ade6ec">
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="278"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="711"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Base API"/>
+	<style name="alternate_colors_style" mode="Opaque" backcolor="#FFFFFF">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{expense} .equals("EXPENSE")]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#FFFFFF"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="expense_person" uuid="730502e7-de6b-45fd-9308-13eec1a8c21f">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Base API"/>
+		<queryString language="SQL">
+			<![CDATA[SELECT p.name, ec.expense, sum(value) as value 
+			FROM expense_control ec
+			JOIN  person p ON ec.person_id = p.id
+			group by 1, 2]]>
+		</queryString>
+		<field name="name" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="name"/>
+			<property name="com.jaspersoft.studio.field.label" value="name"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="person"/>
+		</field>
+		<field name="expense" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="expense"/>
+			<property name="com.jaspersoft.studio.field.label" value="expense"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="expense_control"/>
+		</field>
+		<field name="value" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.name" value="value"/>
+			<property name="com.jaspersoft.studio.field.label" value="value"/>
+		</field>
+		<group name="name">
+			<groupExpression><![CDATA[$F{name}]]></groupExpression>
+		</group>
+	</subDataset>
+	<queryString>
+		<![CDATA[SELECT p.name, ec.date_expense, ec.description, ec.expense, ec.value, ec.person_id
+	FROM expense_control ec 
+	JOIN person p ON ec.person_id = p.id
+	ORDER BY 1]]>
+	</queryString>
+	<field name="name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="name"/>
+		<property name="com.jaspersoft.studio.field.label" value="name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="person"/>
+	</field>
+	<field name="date_expense" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="date_expense"/>
+		<property name="com.jaspersoft.studio.field.label" value="date_expense"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="expense_control"/>
+	</field>
+	<field name="description" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="description"/>
+		<property name="com.jaspersoft.studio.field.label" value="description"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="expense_control"/>
+	</field>
+	<field name="expense" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="expense"/>
+		<property name="com.jaspersoft.studio.field.label" value="expense"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="expense_control"/>
+	</field>
+	<field name="value" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="value"/>
+		<property name="com.jaspersoft.studio.field.label" value="value"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="expense_control"/>
+	</field>
+	<field name="person_id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="person_id"/>
+		<property name="com.jaspersoft.studio.field.label" value="person_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="expense_control"/>
+	</field>
+	<variable name="value_expense" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{expense} .equals("EXPENSE") ?   $F{value}.multiply(new BigDecimal(-1)) : $F{value}]]></variableExpression>
+	</variable>
+	<variable name="sum_value_name" class="java.math.BigDecimal" resetType="Group" resetGroup="Group_name" calculation="Sum">
+		<variableExpression><![CDATA[$V{value_expense}]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="sum_total" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$V{value_expense}]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<group name="Group_name">
+		<groupExpression><![CDATA[$F{name}]]></groupExpression>
+		<groupHeader>
+			<band height="38">
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="0" width="80" height="38" forecolor="#000000" backcolor="#E6E6FA" uuid="0d6f0d69-cb4b-40ab-a328-a4f9cf64d0d3">
+						<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="14" isBold="true"/>
+						<paragraph rightIndent="3"/>
+					</textElement>
+					<text><![CDATA[Name:]]></text>
+				</staticText>
+				<textField>
+					<reportElement mode="Opaque" x="80" y="0" width="475" height="38" forecolor="#000000" backcolor="#E6E6FA" uuid="b740f310-61b6-4556-983a-3124a39e91ef">
+						<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					</reportElement>
+					<textElement verticalAlignment="Middle">
+						<font size="14"/>
+						<paragraph leftIndent="3"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="38">
+				<textField pattern="¤ #,##0.00;¤ -#,##0.00">
+					<reportElement mode="Opaque" x="440" y="0" width="115" height="38" forecolor="#000000" backcolor="#E6E6FA" uuid="c2ac4889-5d44-48d6-9ccf-e12d8eaadc07">
+						<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					</reportElement>
+					<textElement verticalAlignment="Middle">
+						<font size="14" isBold="true"/>
+						<paragraph leftIndent="3"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{sum_value_name}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="0" width="440" height="38" forecolor="#000000" backcolor="#E6E6FA" uuid="e3623a7e-84da-4d74-8cc9-a7ede19a59f7">
+						<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="14" isBold="true"/>
+						<paragraph rightIndent="3"/>
+					</textElement>
+					<text><![CDATA[Total:]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="79" forecolor="#FFFFFF" backcolor="#0000FF" uuid="4ea52e42-b070-42ad-beeb-894312855001"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="26"/>
+				</textElement>
+				<text><![CDATA[Expense]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="32" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="180" height="32" forecolor="#FFFFFF" backcolor="#3F51B5" uuid="bcbc74b5-ab07-4491-891f-8b992967ba30">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="16"/>
+					<paragraph leftIndent="4"/>
+				</textElement>
+				<text><![CDATA[Description]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="470" y="0" width="85" height="32" forecolor="#FFFFFF" backcolor="#3F51B5" uuid="ae9d4930-73e5-4c68-a124-01d2f473af99">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="16"/>
+					<paragraph leftIndent="4"/>
+				</textElement>
+				<text><![CDATA[Value]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="180" y="0" width="115" height="32" forecolor="#FFFFFF" backcolor="#3F51B5" uuid="bec6aa84-8b36-44e9-9ae4-13124320625c">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="16"/>
+					<paragraph leftIndent="4"/>
+				</textElement>
+				<text><![CDATA[Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="295" y="0" width="175" height="32" forecolor="#FFFFFF" backcolor="#3F51B5" uuid="7653e028-907a-4232-a483-3b828e7c56a3">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="16"/>
+					<paragraph leftIndent="4"/>
+				</textElement>
+				<text><![CDATA[Expense]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="33" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="180" height="33" uuid="bb1b69f7-6dab-4393-9235-b740be6a3973">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineColor="#D6D6D6"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#D6D6D6"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#D6D6D6"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#D6D6D6"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#D6D6D6"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+					<paragraph leftIndent="4"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{description}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00;¤ -#,##0.00">
+				<reportElement style="alternate_colors_style" x="470" y="0" width="85" height="33" uuid="1f49f576-a627-4fa5-8737-2ad5752d4e91">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineColor="#D6D6D6"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#D6D6D6"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#D6D6D6"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#D6D6D6"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#D6D6D6"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+					<paragraph leftIndent="4"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{value}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MMMM d, yyyy">
+				<reportElement x="180" y="0" width="115" height="33" uuid="d78b9a45-d762-4c46-a9d8-229233e688e8">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineColor="#D6D6D6"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#D6D6D6"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#D6D6D6"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#D6D6D6"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#D6D6D6"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+					<paragraph leftIndent="4"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{date_expense}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="295" y="0" width="175" height="33" uuid="dac4585f-dae0-460f-8b8c-702e4dd3a159">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineColor="#D6D6D6"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+					<paragraph leftIndent="4"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{expense}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="29">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="440" height="29" forecolor="#FFFFFF" backcolor="#836FFF" uuid="64f5ce5f-5992-4ef3-b101-f0ce7588aa7d">
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+					<paragraph rightIndent="3"/>
+				</textElement>
+				<text><![CDATA[Total Geral:]]></text>
+			</staticText>
+			<textField pattern="¤ #,##0.00;¤ -#,##0.00">
+				<reportElement mode="Opaque" x="440" y="0" width="115" height="29" forecolor="#FFFFFF" backcolor="#836FFF" uuid="29c2cb74-d357-4681-814c-423ac8496b0a">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sum_total}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

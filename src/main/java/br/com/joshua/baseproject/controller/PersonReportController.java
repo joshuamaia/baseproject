@@ -7,6 +7,7 @@ import static org.springframework.http.ResponseEntity.ok;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,31 +29,27 @@ public class PersonReportController {
 	private PersonReportService service;
 
 	@Operation(summary = "Generate Report PDF of persons")
-	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", description = "Found the Resport PDF", content = {
-					@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Byte.class))) }),
+	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Found the Resport PDF", content = {
+			@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Byte.class))) }),
 			@ApiResponse(responseCode = "400", description = "Invalid id supplied", content = @Content) })
-	@GetMapping("/pdf")
-	public ResponseEntity<byte[]> generatePersonReportPdf()  {
+	@GetMapping("/pdf/{nameReport}")
+	public ResponseEntity<byte[]> generatePersonReportPdf(@PathVariable String nameReport) {
 
-		byte[] relatorio = service.generatePersonReportPdf();
+		byte[] relatorio = service.generateReportPdf(nameReport);
 		return ok().contentType(APPLICATION_PDF) //
-				.header(X_SUGGESTED_FILENAME_HEADER, "person.pdf")
-				.body(relatorio);
+				.header(X_SUGGESTED_FILENAME_HEADER, "person.pdf").body(relatorio);
 	}
-	
+
 	@Operation(summary = "Generate Report CSV of persons")
-	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", description = "Found the Resport CSV", content = {
-					@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Byte.class))) }),
+	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Found the Resport CSV", content = {
+			@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Byte.class))) }),
 			@ApiResponse(responseCode = "400", description = "Invalid id supplied", content = @Content) })
 	@GetMapping("/csv")
-    public ResponseEntity<byte[]> generatePersonReportCsv(){
-        
-    	byte[] arquivo = service.generatePersonReportCsv();
-        return ok().contentType(TEXT_PLAIN) //
-				.header(X_SUGGESTED_FILENAME_HEADER, "person.csv")
-				.body(arquivo);
-    }
+	public ResponseEntity<byte[]> generatePersonReportCsv() {
+
+		byte[] arquivo = service.generatePersonReportCsv();
+		return ok().contentType(TEXT_PLAIN) //
+				.header(X_SUGGESTED_FILENAME_HEADER, "person.csv").body(arquivo);
+	}
 
 }
