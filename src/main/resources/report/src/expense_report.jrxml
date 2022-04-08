@@ -11,20 +11,14 @@
 			<style mode="Opaque" forecolor="#FF0000" backcolor="#FFFFFF"/>
 		</conditionalStyle>
 	</style>
-	<subDataset name="expense_person" uuid="730502e7-de6b-45fd-9308-13eec1a8c21f">
+	<subDataset name="expense_person_total" uuid="9a958a33-29e0-4a23-a987-c4a79b574de0">
 		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Base API"/>
 		<queryString language="SQL">
-			<![CDATA[SELECT p.name, ec.expense, sum(value) as value 
+			<![CDATA[SELECT ec.expense, sum(ec.value) as value 
 			FROM expense_control ec
-			JOIN  person p ON ec.person_id = p.id
-			group by 1, 2]]>
+			group by  1]]>
 		</queryString>
-		<field name="name" class="java.lang.String">
-			<property name="com.jaspersoft.studio.field.name" value="name"/>
-			<property name="com.jaspersoft.studio.field.label" value="name"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="person"/>
-		</field>
 		<field name="expense" class="java.lang.String">
 			<property name="com.jaspersoft.studio.field.name" value="expense"/>
 			<property name="com.jaspersoft.studio.field.label" value="expense"/>
@@ -34,8 +28,32 @@
 			<property name="com.jaspersoft.studio.field.name" value="value"/>
 			<property name="com.jaspersoft.studio.field.label" value="value"/>
 		</field>
-		<group name="name">
-			<groupExpression><![CDATA[$F{name}]]></groupExpression>
+		<group name="expense">
+			<groupExpression><![CDATA[$F{expense}]]></groupExpression>
+		</group>
+	</subDataset>
+	<subDataset name="expense_person_group" uuid="e05de141-bb45-4903-84bd-305e6f106cef">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Base API"/>
+		<parameter name="PERSON_NAME" class="java.lang.String"/>
+		<queryString language="SQL">
+			<![CDATA[SELECT ec.expense, sum(value) as value 
+			FROM expense_control ec
+			JOIN  person p ON ec.person_id = p.id
+			WHERE p.name = $P{PERSON_NAME} 
+			group by 1]]>
+		</queryString>
+		<field name="expense" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="expense"/>
+			<property name="com.jaspersoft.studio.field.label" value="expense"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="expense_control"/>
+		</field>
+		<field name="value" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.name" value="value"/>
+			<property name="com.jaspersoft.studio.field.label" value="value"/>
+		</field>
+		<group name="expense">
+			<groupExpression><![CDATA[$F{expense}]]></groupExpression>
 		</group>
 	</subDataset>
 	<queryString>
@@ -112,7 +130,7 @@
 			</band>
 		</groupHeader>
 		<groupFooter>
-			<band height="38">
+			<band height="240">
 				<textField pattern="¤ #,##0.00;¤ -#,##0.00">
 					<reportElement mode="Opaque" x="440" y="0" width="115" height="38" forecolor="#000000" backcolor="#E6E6FA" uuid="c2ac4889-5d44-48d6-9ccf-e12d8eaadc07">
 						<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
@@ -133,6 +151,65 @@
 					</textElement>
 					<text><![CDATA[Total:]]></text>
 				</staticText>
+				<barChart>
+					<chart evaluationTime="Group" evaluationGroup="Group_name">
+						<reportElement x="0" y="40" width="180" height="200" uuid="27228dad-b604-4397-bbe4-7eee46e33777"/>
+						<chartTitle/>
+						<chartSubtitle/>
+						<chartLegend/>
+					</chart>
+					<categoryDataset>
+						<dataset resetType="Report">
+							<datasetRun subDataset="expense_person_group" uuid="ec4c46a5-40f6-4cd3-b1e9-800e96d138fe">
+								<datasetParameter name="PERSON_NAME">
+									<datasetParameterExpression><![CDATA[$F{name}]]></datasetParameterExpression>
+								</datasetParameter>
+								<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+							</datasetRun>
+						</dataset>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{expense}]]></seriesExpression>
+							<categoryExpression><![CDATA[$F{expense}]]></categoryExpression>
+							<valueExpression><![CDATA[$F{value}]]></valueExpression>
+							<labelExpression><![CDATA[$F{expense} + " - " +NumberFormat.getCurrencyInstance( new Locale("pt","BR")).format($F{value} )]]></labelExpression>
+						</categorySeries>
+					</categoryDataset>
+					<barPlot>
+						<plot/>
+						<itemLabel/>
+						<categoryAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</categoryAxisFormat>
+						<valueAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</valueAxisFormat>
+					</barPlot>
+				</barChart>
+				<pieChart>
+					<chart evaluationTime="Group" evaluationGroup="Group_name">
+						<reportElement x="180" y="40" width="375" height="200" uuid="5ca5f8d8-cd28-48b8-8019-534c48299676"/>
+						<chartTitle/>
+						<chartSubtitle/>
+						<chartLegend/>
+					</chart>
+					<pieDataset>
+						<dataset resetType="Report">
+							<datasetRun subDataset="expense_person_group" uuid="f8dea1dd-9730-4890-b1ce-1d60358588b9">
+								<datasetParameter name="PERSON_NAME">
+									<datasetParameterExpression><![CDATA[$F{name}]]></datasetParameterExpression>
+								</datasetParameter>
+								<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+							</datasetRun>
+						</dataset>
+						<keyExpression><![CDATA[$F{expense}]]></keyExpression>
+						<valueExpression><![CDATA[$F{value}]]></valueExpression>
+						<labelExpression><![CDATA[$F{expense} + " - " + NumberFormat.getCurrencyInstance( new Locale("pt","BR")).format($F{value})]]></labelExpression>
+					</pieDataset>
+					<piePlot>
+						<plot/>
+						<itemLabel/>
+					</piePlot>
+				</pieChart>
 			</band>
 		</groupFooter>
 	</group>
@@ -266,9 +343,9 @@
 		</band>
 	</detail>
 	<summary>
-		<band height="29">
+		<band height="241">
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="0" width="440" height="29" forecolor="#FFFFFF" backcolor="#836FFF" uuid="64f5ce5f-5992-4ef3-b101-f0ce7588aa7d">
+				<reportElement mode="Opaque" x="0" y="0" width="440" height="40" forecolor="#FFFFFF" backcolor="#836FFF" uuid="64f5ce5f-5992-4ef3-b101-f0ce7588aa7d">
 					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
@@ -278,7 +355,7 @@
 				<text><![CDATA[Total Geral:]]></text>
 			</staticText>
 			<textField pattern="¤ #,##0.00;¤ -#,##0.00">
-				<reportElement mode="Opaque" x="440" y="0" width="115" height="29" forecolor="#FFFFFF" backcolor="#836FFF" uuid="29c2cb74-d357-4681-814c-423ac8496b0a">
+				<reportElement mode="Opaque" x="440" y="0" width="115" height="40" forecolor="#FFFFFF" backcolor="#836FFF" uuid="29c2cb74-d357-4681-814c-423ac8496b0a">
 					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
 				</reportElement>
 				<textElement verticalAlignment="Middle">
@@ -287,6 +364,59 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$V{sum_total}]]></textFieldExpression>
 			</textField>
+			<barChart>
+				<chart evaluationTime="Report">
+					<reportElement x="0" y="40" width="180" height="200" uuid="1bed80e3-5a1e-46fb-941a-9afe9d5f15aa"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset resetType="Report">
+						<datasetRun subDataset="expense_person_total" uuid="cc6d4227-c021-4b01-a55a-76e8a3f90c23">
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{expense}]]></seriesExpression>
+						<categoryExpression><![CDATA[0]]></categoryExpression>
+						<valueExpression><![CDATA[$F{value}]]></valueExpression>
+						<labelExpression><![CDATA[$F{expense} + " - " +NumberFormat.getCurrencyInstance( new Locale("pt","BR")).format($F{value} )]]></labelExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+			<pie3DChart>
+				<chart evaluationTime="Report">
+					<reportElement x="180" y="40" width="375" height="200" uuid="e6e0447f-f932-438d-8418-1f871b9bfff0"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<pieDataset>
+					<dataset resetType="Report">
+						<datasetRun subDataset="expense_person_total" uuid="a01865ee-486f-4334-ae92-b61a42706158">
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+					</dataset>
+					<keyExpression><![CDATA[$F{expense}]]></keyExpression>
+					<valueExpression><![CDATA[$F{value}]]></valueExpression>
+					<labelExpression><![CDATA[$F{expense} + " - " + NumberFormat.getCurrencyInstance( new Locale("pt","BR")).format($F{value})]]></labelExpression>
+				</pieDataset>
+				<pie3DPlot>
+					<plot/>
+					<itemLabel/>
+				</pie3DPlot>
+			</pie3DChart>
 		</band>
 	</summary>
 </jasperReport>
