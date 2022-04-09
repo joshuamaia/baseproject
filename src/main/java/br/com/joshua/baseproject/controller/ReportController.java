@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.joshua.baseproject.service.PersonReportService;
+import br.com.joshua.baseproject.service.ReportService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -20,13 +20,13 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 @RestController
-@RequestMapping("/api/persons-reports")
-public class PersonReportController {
+@RequestMapping("/api/reports")
+public class ReportController {
 
 	public static final String X_SUGGESTED_FILENAME_HEADER = "X-SUGGESTED-FILENAME";
 
 	@Autowired
-	private PersonReportService service;
+	private ReportService service;
 
 	@Operation(summary = "Generate Report PDF of persons")
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Found the Resport PDF", content = {

@@ -1,6 +1,6 @@
 package br.com.joshua.baseproject.service;
 
-public interface PersonReportService {
+public interface ReportService {
 	
 	public byte[] generateReportPdf(String nameReport);
 	

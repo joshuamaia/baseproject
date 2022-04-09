@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.joshua.baseproject.domain.Person;
 import br.com.joshua.baseproject.repository.PersonRepository;
-import br.com.joshua.baseproject.service.PersonReportService;
+import br.com.joshua.baseproject.service.ReportService;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -25,7 +25,7 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 @Service
-public class PersonReportServiceImpl implements PersonReportService {
+public class ReportServiceImpl implements ReportService {
 	
 	@Autowired
 	private PersonRepository repository;
