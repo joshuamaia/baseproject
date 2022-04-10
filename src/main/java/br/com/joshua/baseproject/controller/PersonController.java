@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.joshua.baseproject.dto.PersonDto;
@@ -52,6 +53,19 @@ public class PersonController {
 			@PathVariable(required = false) String wordSearch) {
 		Page<PersonDto> persons = service.searchAllPage(page, size, wordSearch);
 		return new ResponseEntity<Page<PersonDto>>(persons, HttpStatus.OK);
+	}
+
+	@Operation(summary = "Search all Persons pagened")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Found the List of Person", content = @Content(mediaType = "application/json", schema = @Schema(implementation = PersonPage.class))),
+			@ApiResponse(responseCode = "400", description = "Invalid id supplied", content = @Content) })
+	@GetMapping("/filter")
+	public ResponseEntity<Page<PersonDto>> filter(@RequestParam(required = false) String name,
+			@RequestParam(required = false) String email, @RequestParam(required = false) Integer page,
+			@RequestParam(required = false) Integer size) {
+
+		var persons = this.service.filter(name, email, page, size);
+		return ResponseEntity.ok().body(persons);
 	}
 
 	@Operation(summary = "Create Person")

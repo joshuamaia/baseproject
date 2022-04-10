@@ -1,12 +1,20 @@
 package br.com.joshua.baseproject.service.impl;
 
+import java.util.Optional;
+
+import javax.validation.constraints.NotNull;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import br.com.joshua.baseproject.domain.Person;
 import br.com.joshua.baseproject.dto.PersonDto;
 import br.com.joshua.baseproject.repository.PersonRepository;
+import br.com.joshua.baseproject.repository.specification.PersonSpecification;
 import br.com.joshua.baseproject.service.PersonService;
 
 @Service
@@ -22,6 +30,25 @@ public class PersonServiceImpl extends ServiceBaseImpl<PersonDto, Long, Person, 
 		wordSearch = wordSearch.toLowerCase();
 		return repository.searchAllPage(wordSearch, pageRequest).map(this::convertFromDTO);
 
+	}
+
+	@Override
+	public Page<PersonDto> filter(@Nullable String name, @Nullable String email, @Nullable Integer page,
+			@Nullable Integer size) {
+		var specification = this.prepareSpecification(name, email);
+		return this.repository.findAll(specification, this.preparePageable(PageRequest.of(page, size)))
+				.map(this::convertFromDTO);
+	}
+
+	@NotNull
+	private Specification<Person> prepareSpecification(@Nullable String name, @Nullable String email) {
+		final var specification = new PersonSpecification();
+
+		return specification.and(specification.findByName(name)).and(specification.findByEmail(email));
+	}
+
+	private Pageable preparePageable(@Nullable Pageable pageable) {
+		return Optional.ofNullable(pageable).orElse(Pageable.unpaged());
 	}
 
 }
