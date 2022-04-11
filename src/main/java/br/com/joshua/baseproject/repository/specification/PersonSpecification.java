@@ -14,21 +14,9 @@ public class PersonSpecification extends SpecificationBase<Person> {
 	public Specification<Person> findByName(@Nullable String nome) {
 		return Optional.ofNullable(nome).map(n -> prepareLikeSpecification("name", n)).orElse(null);
 	}
-	
+
 	public Specification<Person> findByEmail(@Nullable String email) {
 		return Optional.ofNullable(email).map(n -> prepareLikeSpecification("email", n)).orElse(null);
 	}
-
-//	public Specification<Servidor> findByColunaCpf(@Nullable String cpf) {
-//		return Optional.ofNullable(cpf)
-//				.map(cm -> prepareEqualsSpecification("cpf,", cm))
-//				.orElse(null);
-//	}
-
-//	public Specification<Servidor> findByMatricula(@Nullable Boolean foraDeUso) {
-//		return Optional.ofNullable(foraDeUso)
-//				.map(fu -> prepareEqualsSpecification("foraDeUso", fu))
-//				.orElse(null);
-//	}
 
 }
