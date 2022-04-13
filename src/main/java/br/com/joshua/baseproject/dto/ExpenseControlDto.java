@@ -3,26 +3,34 @@ package br.com.joshua.baseproject.dto;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import br.com.joshua.baseproject.domain.Person;
 import br.com.joshua.baseproject.enums.ExpenseEnum;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.FieldDefaults;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class ExpenseControlDto {
-	private Long id;
+@Getter
+@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EqualsAndHashCode(callSuper = false)
+@ToString
+@FieldDefaults(level = AccessLevel.PROTECTED)
+public class ExpenseControlDto extends DtoBase<Long> {
+	private static final long serialVersionUID = 1L;
 
-	private ExpenseEnum expense;
+	Long id;
 
-	private String description;
+	ExpenseEnum expense;
 
-	private LocalDate dateExpense;
-	
-	private BigDecimal value;
-	
-	private Person person;
+	String description;
+
+	LocalDate dateExpense;
+
+	BigDecimal value;
+
+	PersonDto person;
 
 }

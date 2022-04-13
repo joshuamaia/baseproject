@@ -85,7 +85,7 @@ public class ExpenseControlController {
 			@ApiResponse(responseCode = "400", description = "Invalid id supplied", content = @Content) })
 	@PutMapping
 	public ResponseEntity<ExpenseControlDto> update(@RequestBody ExpenseControlDto expenseControl) {
-		ExpenseControlDto expenseControlUpdate = service.save(expenseControl);
+		ExpenseControlDto expenseControlUpdate = service.update(expenseControl);
 		return new ResponseEntity<ExpenseControlDto>(expenseControlUpdate, HttpStatus.OK);
 	}
 

@@ -11,10 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import br.com.joshua.baseproject.dto.DtoBase;
 import br.com.joshua.baseproject.service.ServiceBase;
 import br.com.joshua.baseproject.util.Converte;
 
-public abstract class ServiceBaseImpl<T, ID, E, R extends JpaRepository<E, ID>> implements ServiceBase<T, ID>, Converte<E, T> {
+public abstract class ServiceBaseImpl<T extends DtoBase<ID>, ID extends Number, E, R extends JpaRepository<E, ID>> implements ServiceBase<T, ID>, Converte<E, T> {
 
 	@Autowired
 	private ModelMapper modelMapper;
@@ -23,8 +24,20 @@ public abstract class ServiceBaseImpl<T, ID, E, R extends JpaRepository<E, ID>> 
 	protected R repository;
 	
 	@Override
-	public T save(T entity) {
-		return convertFromDTO(repository.save(convertFromEntity(entity)));
+	public T save(T dto) {
+		return convertFromDTO(repository.save(convertFromEntity(dto)));
+	}
+	
+	@Override
+	public T update(T dto) {
+		if (dto.getId() == null) {
+			throw new RuntimeException("Id not present!");
+		}
+		Optional<E> e = repository.findById(dto.getId());
+		if (!e.isPresent()) {
+			throw new RuntimeException("Entity not present!");
+		}
+		return convertFromDTO(repository.save(convertFromEntity(dto)));
 	}
 
 	@Override

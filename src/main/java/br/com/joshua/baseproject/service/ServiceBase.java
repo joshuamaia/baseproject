@@ -8,6 +8,8 @@ public interface ServiceBase<T, ID> {
 
 	T save(T entity);
 	
+	T update(T entity);
+	
 	T findOne(ID id);
 	
 	Page<T> searchAllPage(Integer page, Integer size, String wordSearch);

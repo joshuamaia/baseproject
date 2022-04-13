@@ -4,35 +4,37 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.FieldDefaults;
 
 @Entity
-@Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class Address implements Serializable {
+@Getter
+@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EqualsAndHashCode(callSuper = false, onlyExplicitlyIncluded = true)
+@ToString
+@FieldDefaults(level = AccessLevel.PROTECTED)
+public class Address extends EntityBase<Long> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	@NotEmpty
+	@Column(nullable = false, length = 100)
+	String street;
 
 	@NotEmpty
 	@Column(nullable = false, length = 100)
-	private String street;
+	String district;
 
-	@NotEmpty
-	@Column(nullable = false, length = 100)
-	private String district;
-
-	private Integer number;
+	Integer number;
 
 }

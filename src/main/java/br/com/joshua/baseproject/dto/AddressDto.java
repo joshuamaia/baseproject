@@ -1,20 +1,29 @@
 package br.com.joshua.baseproject.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.FieldDefaults;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class AddressDto {
+@Getter
+@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EqualsAndHashCode(callSuper = false)
+@ToString
+@FieldDefaults(level = AccessLevel.PROTECTED)
+public class AddressDto extends DtoBase<Long> {
 
-	private Long id;
+	private static final long serialVersionUID = 1L;
 
-	private String street;
+	Long id;
 
-	private String district;
+	String street;
 
-	private Integer number;
+	String district;
+
+	Integer number;
 
 }

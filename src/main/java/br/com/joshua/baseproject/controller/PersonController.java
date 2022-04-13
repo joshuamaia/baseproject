@@ -86,7 +86,7 @@ public class PersonController {
 			@ApiResponse(responseCode = "400", description = "Invalid id supplied", content = @Content) })
 	@PutMapping
 	public ResponseEntity<PersonDto> update(@RequestBody PersonDto person) {
-		PersonDto personUpdate = service.save(person);
+		PersonDto personUpdate = service.update(person);
 		return new ResponseEntity<PersonDto>(personUpdate, HttpStatus.OK);
 	}
 

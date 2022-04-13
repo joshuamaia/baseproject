@@ -47,8 +47,10 @@ class PersonTests {
 	public void setUp() {
 		MockitoAnnotations.openMocks(this);
 
-		address = new Address(1L, "Street Test", "District Test", 123);
-		person = new Person(1L, "Gina", "gina@gmail.com", LocalDate.now(), GenderEnum.MALE, address);
+		address = new Address("Street Test", "District Test", 123);
+		address.setId(1L);
+		person = new Person("Gina", "gina@gmail.com", LocalDate.now(), GenderEnum.MALE, address);
+		person.setId(1L);
 		personDto = modelMapper.map(person, PersonDto.class);
 
 	}
