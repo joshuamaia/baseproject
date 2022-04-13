@@ -49,17 +49,17 @@ ORDER BY 1]]>
 		<groupHeader>
 			<band height="32">
 				<staticText>
-					<reportElement mode="Opaque" x="0" y="0" width="60" height="32" forecolor="#FFFFFF" backcolor="#836FFF" uuid="bcbc74b5-ab07-4491-891f-8b992967ba30">
+					<reportElement mode="Opaque" x="0" y="0" width="60" height="32" forecolor="#000000" backcolor="#F2F2F2" uuid="bcbc74b5-ab07-4491-891f-8b992967ba30">
 						<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
 					</reportElement>
 					<textElement textAlignment="Left" verticalAlignment="Middle">
-						<font size="14"/>
+						<font size="14" isBold="true"/>
 						<paragraph leftIndent="4"/>
 					</textElement>
 					<text><![CDATA[Name: ]]></text>
 				</staticText>
 				<textField>
-					<reportElement style="alternate_colors_style" mode="Opaque" x="60" y="0" width="495" height="32" forecolor="#FFFFFF" backcolor="#836FFF" uuid="bb1b69f7-6dab-4393-9235-b740be6a3973">
+					<reportElement style="alternate_colors_style" mode="Opaque" x="60" y="0" width="495" height="32" forecolor="#000000" backcolor="#F2F2F2" uuid="bb1b69f7-6dab-4393-9235-b740be6a3973">
 						<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
 					</reportElement>
 					<box leftPadding="0">
@@ -70,7 +70,7 @@ ORDER BY 1]]>
 						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					</box>
 					<textElement verticalAlignment="Middle">
-						<font size="14"/>
+						<font size="14" isBold="true"/>
 						<paragraph leftIndent="4"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
@@ -84,7 +84,7 @@ ORDER BY 1]]>
 	<title>
 		<band height="79" splitType="Stretch">
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="0" width="555" height="79" forecolor="#FFFFFF" backcolor="#0000FF" uuid="4ea52e42-b070-42ad-beeb-894312855001"/>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="79" forecolor="#FFFFFF" backcolor="#000000" uuid="4ea52e42-b070-42ad-beeb-894312855001"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="26"/>
 				</textElement>
@@ -95,31 +95,31 @@ ORDER BY 1]]>
 	<pageHeader>
 		<band height="32" splitType="Stretch">
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="0" width="190" height="32" forecolor="#FFFFFF" backcolor="#3F51B5" uuid="ae9d4930-73e5-4c68-a124-01d2f473af99">
+				<reportElement mode="Opaque" x="0" y="0" width="180" height="32" forecolor="#000000" backcolor="#C3C3C3" uuid="ae9d4930-73e5-4c68-a124-01d2f473af99">
 					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font size="16"/>
+					<font size="16" isBold="true"/>
 					<paragraph leftIndent="4"/>
 				</textElement>
 				<text><![CDATA[E-mail]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="180" y="0" width="130" height="32" forecolor="#FFFFFF" backcolor="#3F51B5" uuid="bec6aa84-8b36-44e9-9ae4-13124320625c">
+				<reportElement mode="Opaque" x="180" y="0" width="130" height="32" forecolor="#000000" backcolor="#C3C3C3" uuid="bec6aa84-8b36-44e9-9ae4-13124320625c">
 					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font size="16"/>
+					<font size="16" isBold="true"/>
 					<paragraph leftIndent="4"/>
 				</textElement>
 				<text><![CDATA[Birth Date]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="310" y="0" width="245" height="32" forecolor="#FFFFFF" backcolor="#3F51B5" uuid="0daecd64-2191-4985-9a43-c4fd1c488008">
+				<reportElement mode="Opaque" x="310" y="0" width="245" height="32" forecolor="#000000" backcolor="#C3C3C3" uuid="0daecd64-2191-4985-9a43-c4fd1c488008">
 					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font size="16"/>
+					<font size="16" isBold="true"/>
 					<paragraph leftIndent="4"/>
 				</textElement>
 				<text><![CDATA[Address]]></text>
