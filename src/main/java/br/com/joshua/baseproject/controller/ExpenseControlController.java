@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.joshua.baseproject.dto.ExpenseControlDto;
@@ -67,6 +68,19 @@ public class ExpenseControlController {
 		return new ResponseEntity<Page<ExpenseControlDto>>(expenseControls, HttpStatus.OK);
 	}
 
+	@Operation(summary = "Search all Expense Controls pagened")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Found the List of Expense Control", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ExpenseControlPage.class))),
+			@ApiResponse(responseCode = "400", description = "Invalid id supplied", content = @Content) })
+	@GetMapping("/filter")
+	public ResponseEntity<Page<ExpenseControlDto>> filter(@RequestParam(required = false) String description,
+			@RequestParam(required = false) String name, @RequestParam(required = false) String email,
+			@RequestParam(required = false) Integer page, @RequestParam(required = false) Integer size) {
+
+		var expenseControls = this.service.filter(description, name, email, page, size);
+		return ResponseEntity.ok().body(expenseControls);
+	}
+
 	@Operation(summary = "Create Expense Control")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "201", description = "Expense Control created with sucessful", content = {
@@ -90,9 +104,8 @@ public class ExpenseControlController {
 	}
 
 	@Operation(summary = "Search Expense Control By id")
-	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", description = "Found the Expense Control", content = {
-					@Content(mediaType = "application/json", schema = @Schema(implementation = ExpenseControlDto.class)) }),
+	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Found the Expense Control", content = {
+			@Content(mediaType = "application/json", schema = @Schema(implementation = ExpenseControlDto.class)) }),
 			@ApiResponse(responseCode = "400", description = "Invalid id supplied", content = @Content) })
 	@GetMapping("/{id}")
 	public ResponseEntity<ExpenseControlDto> getOneById(@PathVariable Long id) {
@@ -110,7 +123,7 @@ public class ExpenseControlController {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}
-	
+
 	class ExpenseControlPage extends PageImpl<ExpenseControlDto> {
 		public ExpenseControlPage(List<ExpenseControlDto> content, Pageable pageable, long total) {
 			super(content, pageable, total);

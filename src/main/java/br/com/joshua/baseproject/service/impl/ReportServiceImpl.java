@@ -36,7 +36,7 @@ public class ReportServiceImpl implements ReportService {
 	@Override
 	public byte[] generateReportPdf(String nameReport) {
 		try {
-			String fileReport = String.format("/report/%s.jasper" ,nameReport);
+			String fileReport = String.format("/report/src/%s.jasper" ,nameReport);
 			JasperReport compile = (JasperReport) JRLoader
 					.loadObject(this.getClass().getResourceAsStream(fileReport));
 			try (Connection connection = dataSource.getConnection()) {

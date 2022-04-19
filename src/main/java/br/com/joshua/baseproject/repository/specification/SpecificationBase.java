@@ -37,6 +37,12 @@ public class SpecificationBase<T> implements Specification<T> {
 		return (root, query, builder) -> builder.like(builder.lower(root.get(columnName)),
 				"%" + value.toLowerCase() + "%");
 	}
+	
+	@NotNull
+	protected Specification<T> prepareLikeChieldSpecification(@NotNull String columnName, @NotNull String columnChield, @NotNull String value) {
+		return (root, query, builder) -> builder.like(builder.lower(root.get(columnName).get(columnChield)),
+				"%" + value.toLowerCase() + "%");
+	}
 
 	@NotNull
 	protected Specification<T> prepareLikeSubSpecification(@NotNull String columnName, @NotNull String campoName,
