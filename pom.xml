@@ -126,40 +126,7 @@
 					</excludes>
 				</configuration>
 			</plugin>
-			<plugin>
-
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>jasperreports-maven-plugin</artifactId>
-				<version>1.0-beta-2</version>
-
-				<executions>
-					<execution>
-						<phase>process-sources</phase>
-						<goals>
-							<goal>compile-reports</goal>
-						</goals>
-
-						<configuration>
-							<sourceDirectory>src/main/resources/report/src</sourceDirectory>
-							<sourceFileExt>.jrxml</sourceFileExt>
-							<compiler>net.sf.jasperreports.engine.design.JRJavacCompiler</compiler>
-							<outputDirectory>${project.build.directory}/classes/report</outputDirectory>
-						</configuration>
-
-					</execution>
-
-				</executions>
-
-				<dependencies>
-					<!--note this must be repeated here to pick up correct xml validation -->
-					<dependency>
-						<groupId>net.sf.jasperreports</groupId>
-						<artifactId>jasperreports</artifactId>
-						<version>${jasperreports.version}</version>
-					</dependency>
-
-				</dependencies>
-			</plugin>
+			
 		</plugins>
 	</build>
 	<repositories>
