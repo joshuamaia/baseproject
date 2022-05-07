@@ -7,7 +7,20 @@ spring:
     url: jdbc:postgresql://localhost:5432/baseapi
     username: postgres
     password: root
+  # Flyway
+  flyway:
+    enabled: true
   # JPA properties
-  jpa:
-    hibernate:
-      ddl-auto: update
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+management:
+  endpoint:
+    health:
+      show-details: always
+  health:
+    db:
+      enabled: 'true'
+    defaults:
+      enabled: 'true'
+
