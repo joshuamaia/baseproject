@@ -26,12 +26,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import br.com.joshua.baseproject.domain.Address;
 import br.com.joshua.baseproject.domain.ExpenseControl;
 import br.com.joshua.baseproject.domain.Person;
-import br.com.joshua.baseproject.dto.ExpenseControlDto;
-import br.com.joshua.baseproject.dto.ExpenseSumDto;
-import br.com.joshua.baseproject.dto.PersonDto;
 import br.com.joshua.baseproject.enums.ExpenseEnum;
 import br.com.joshua.baseproject.enums.GenderEnum;
 import br.com.joshua.baseproject.repository.ExpenseControlRepository;
+import br.com.joshua.baseproject.request.ExpenseControlRequest;
+import br.com.joshua.baseproject.response.ExpenseControlResponse;
+import br.com.joshua.baseproject.response.ExpenseSumResponse;
+import br.com.joshua.baseproject.response.PersonResponse;
 import br.com.joshua.baseproject.service.ExpenseControlService;
 
 @SpringBootTest
@@ -48,17 +49,17 @@ class ExpenseControlTests {
 
 	private Person person = null;
 	private Address address = null;
-	private PersonDto personDto = null;
 	private ExpenseControl expenseControl = null;
-	private ExpenseControlDto expenseControlDto = null;
-	List<ExpenseSumDto> expenseSumDto = null;
+	private ExpenseControlResponse expenseControlResponse = null;
+	private ExpenseControlRequest expenseControlRequest = null;
+	List<ExpenseSumResponse> expenseSumDto = null;
 
 	@BeforeEach
 	public void setUp() {
 		MockitoAnnotations.openMocks(this);
 
-		expenseSumDto = new ArrayList<ExpenseSumDto>();
-		expenseSumDto.add(new ExpenseSumDto() {
+		expenseSumDto = new ArrayList<ExpenseSumResponse>();
+		expenseSumDto.add(new ExpenseSumResponse() {
 
 			@Override
 			public BigDecimal getValue() {
@@ -70,7 +71,7 @@ class ExpenseControlTests {
 				return "EXPENSE";
 			}
 		});
-		expenseSumDto.add(new ExpenseSumDto() {
+		expenseSumDto.add(new ExpenseSumResponse() {
 
 			@Override
 			public BigDecimal getValue() {
@@ -87,26 +88,27 @@ class ExpenseControlTests {
 		address.setId(1L);
 		person = new Person("Gina", "gina@gmail.com", LocalDate.now(), GenderEnum.MALE, address);
 		person.setId(1L);
-		personDto = modelMapper.map(person, PersonDto.class);
 		expenseControl = new ExpenseControl(ExpenseEnum.EXPENSE, "Test", LocalDate.now(), new BigDecimal("50.0"),
 				person);
 		expenseControl.setId(1L);
-		expenseControlDto = modelMapper.map(expenseControl, ExpenseControlDto.class);
+		expenseControlRequest = new ExpenseControlRequest();
+		expenseControlRequest.setId(1L);
+		expenseControlResponse = modelMapper.map(expenseControl, ExpenseControlResponse.class);
 
 	}
 
 	@Test
 	public void should_searchSumExpenseExpenseControl_when_use_repository() {
 
-		when(repository.searchSumExpense(any(Long.class))).then(new Answer<List<ExpenseSumDto>>() {
+		when(repository.searchSumExpense(any(Long.class))).then(new Answer<List<ExpenseSumResponse>>() {
 
 			@Override
-			public List<ExpenseSumDto> answer(InvocationOnMock invocation) throws Throwable {
+			public List<ExpenseSumResponse> answer(InvocationOnMock invocation) throws Throwable {
 				return expenseSumDto;
 			}
 		});
 		
-		List<ExpenseSumDto> expenseSumDtoResponse = repository.searchSumExpense(2L);
+		List<ExpenseSumResponse> expenseSumDtoResponse = repository.searchSumExpense(2L);
 
 		BigDecimal expense = expenseSumDtoResponse.stream().map(ecs -> {
 			if (ecs.getExpense().equals("EXPENSE")) {
@@ -130,15 +132,15 @@ class ExpenseControlTests {
 	@Test
 	public void should_searchSumExpenseExpenseControl_when_use_service() {
 
-		when(service.searchSumExpense(any(Long.class))).then(new Answer<List<ExpenseSumDto>>() {
+		when(service.searchSumExpense(any(Long.class))).then(new Answer<List<ExpenseSumResponse>>() {
 
 			@Override
-			public List<ExpenseSumDto> answer(InvocationOnMock invocation) throws Throwable {
+			public List<ExpenseSumResponse> answer(InvocationOnMock invocation) throws Throwable {
 				return expenseSumDto;
 			}
 		});
 
-		List<ExpenseSumDto> expenseSumDtoResponse = service.searchSumExpense(2L);
+		List<ExpenseSumResponse> expenseSumDtoResponse = service.searchSumExpense(2L);
 
 		BigDecimal expense = expenseSumDtoResponse.stream().map(ecs -> {
 			if (ecs.getExpense().equals("EXPENSE")) {
@@ -162,15 +164,15 @@ class ExpenseControlTests {
 	@Test
 	public void should_saveExpenseControl_when_use_service() {
 
-		when(service.save(any(ExpenseControlDto.class))).then(new Answer<ExpenseControlDto>() {
+		when(service.save(any(ExpenseControlRequest.class))).then(new Answer<ExpenseControlResponse>() {
 
 			@Override
-			public ExpenseControlDto answer(InvocationOnMock invocation) throws Throwable {
-				return expenseControlDto;
+			public ExpenseControlResponse answer(InvocationOnMock invocation) throws Throwable {
+				return expenseControlResponse;
 			}
 		});
 
-		ExpenseControlDto responseDto = service.save(expenseControlDto);
+		ExpenseControlResponse responseDto = service.save(expenseControlRequest);
 
 		assertEquals(1L, responseDto.getId());
 		assertEquals(ExpenseEnum.EXPENSE, responseDto.getExpense());
@@ -211,9 +213,9 @@ class ExpenseControlTests {
 	@Test
 	public void should_findExpenseControl_when_use_service() {
 
-		when(service.findOne(1L)).thenReturn(expenseControlDto);
+		when(service.findOne(1L)).thenReturn(expenseControlResponse);
 
-		ExpenseControlDto expenseControlReturnDto = service.findOne(1L);
+		ExpenseControlResponse expenseControlReturnDto = service.findOne(1L);
 
 		verify(service, times(1)).findOne(1L);
 

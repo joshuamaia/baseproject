@@ -5,14 +5,15 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.lang.Nullable;
 
-import br.com.joshua.baseproject.dto.ExpenseControlDto;
-import br.com.joshua.baseproject.dto.ExpenseSumDto;
+import br.com.joshua.baseproject.request.ExpenseControlRequest;
+import br.com.joshua.baseproject.response.ExpenseControlResponse;
+import br.com.joshua.baseproject.response.ExpenseSumResponse;
 
-public interface ExpenseControlService extends ServiceBase<ExpenseControlDto, Long> {
+public interface ExpenseControlService extends ServiceBase<ExpenseControlResponse, ExpenseControlRequest, Long> {
 
-	List<ExpenseSumDto> searchSumExpense(Long personId);
+	List<ExpenseSumResponse> searchSumExpense(Long personId);
 	
-	public Page<ExpenseControlDto> filter(
+	public Page<ExpenseControlResponse> filter(
 			@Nullable String description,
 			@Nullable String name,
 			@Nullable String email,

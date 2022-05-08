@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import br.com.joshua.baseproject.domain.ExpenseControl;
-import br.com.joshua.baseproject.dto.ExpenseSumDto;
+import br.com.joshua.baseproject.response.ExpenseSumResponse;
 
 public interface ExpenseControlRepository
 		extends JpaRepository<ExpenseControl, Long>, JpaSpecificationExecutor<ExpenseControl> {
@@ -20,6 +20,6 @@ public interface ExpenseControlRepository
 
 	@Query(value = "SELECT expense, sum(value) as value " + "	FROM expense_control "
 			+ "	where person_id = :personId " + "	group by 1", nativeQuery = true)
-	List<ExpenseSumDto> searchSumExpense(@Param("personId") Long personId);
+	List<ExpenseSumResponse> searchSumExpense(@Param("personId") Long personId);
 
 }

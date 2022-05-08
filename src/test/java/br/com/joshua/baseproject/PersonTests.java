@@ -22,9 +22,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import br.com.joshua.baseproject.domain.Address;
 import br.com.joshua.baseproject.domain.Person;
-import br.com.joshua.baseproject.dto.PersonDto;
 import br.com.joshua.baseproject.enums.GenderEnum;
 import br.com.joshua.baseproject.repository.PersonRepository;
+import br.com.joshua.baseproject.request.PersonRequest;
+import br.com.joshua.baseproject.response.PersonResponse;
 import br.com.joshua.baseproject.service.PersonService;
 
 @SpringBootTest
@@ -41,7 +42,8 @@ class PersonTests {
 
 	private Person person = null;
 	private Address address = null;
-	private PersonDto personDto = null;
+	private PersonResponse personResponse = null;
+	private PersonRequest personRequest = null;
 
 	@BeforeEach
 	public void setUp() {
@@ -51,22 +53,24 @@ class PersonTests {
 		address.setId(1L);
 		person = new Person("Gina", "gina@gmail.com", LocalDate.now(), GenderEnum.MALE, address);
 		person.setId(1L);
-		personDto = modelMapper.map(person, PersonDto.class);
+		personResponse = modelMapper.map(person, PersonResponse.class);
+		personRequest = new PersonRequest();
+		personRequest.setId(1L);
 
 	}
 
 	@Test
 	public void should_savePerson_when_use_service() {
 
-		when(service.save(any(PersonDto.class))).then(new Answer<PersonDto>() {
+		when(service.save(any(PersonRequest.class))).then(new Answer<PersonResponse>() {
 
 			@Override
-			public PersonDto answer(InvocationOnMock invocation) throws Throwable {
-				return personDto;
+			public PersonResponse answer(InvocationOnMock invocation) throws Throwable {
+				return personResponse;
 			}
 		});
 
-		PersonDto responseDto = service.save(personDto);
+		PersonResponse responseDto = service.save(personRequest);
 
 		assertEquals("Gina", responseDto.getName());
 		assertEquals("gina@gmail.com", responseDto.getEmail());
@@ -113,9 +117,9 @@ class PersonTests {
 	@Test
 	public void should_findPerson_when_use_service() {
 
-		when(service.findOne(1L)).thenReturn(personDto);
+		when(service.findOne(1L)).thenReturn(personResponse);
 
-		PersonDto personReturnDto = service.findOne(1L);
+		PersonResponse personReturnDto = service.findOne(1L);
 
 		verify(service, times(1)).findOne(1L);
 

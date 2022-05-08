@@ -12,32 +12,33 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import br.com.joshua.baseproject.domain.Person;
-import br.com.joshua.baseproject.dto.PersonDto;
 import br.com.joshua.baseproject.repository.PersonRepository;
 import br.com.joshua.baseproject.repository.specification.PersonSpecification;
+import br.com.joshua.baseproject.request.PersonRequest;
+import br.com.joshua.baseproject.response.PersonResponse;
 import br.com.joshua.baseproject.service.PersonService;
 
 @Service
-public class PersonServiceImpl extends ServiceBaseImpl<PersonDto, Long, Person, PersonRepository>
+public class PersonServiceImpl extends ServiceBaseImpl<PersonResponse, PersonRequest, Long, Person, PersonRepository>
 		implements PersonService {
 
 	@Override
-	public Page<PersonDto> searchAllPage(Integer page, Integer size, String wordSearch) {
+	public Page<PersonResponse> searchAllPage(Integer page, Integer size, String wordSearch) {
 		PageRequest pageRequest = PageRequest.of(page, size);
 		if (wordSearch == null || wordSearch.trim().isEmpty()) {
-			return repository.findAll(pageRequest).map(this::convertFromDTO);
+			return repository.findAll(pageRequest).map(this::convertFromResponse);
 		}
 		wordSearch = wordSearch.toLowerCase();
-		return repository.searchAllPage(wordSearch, pageRequest).map(this::convertFromDTO);
+		return repository.searchAllPage(wordSearch, pageRequest).map(this::convertFromResponse);
 
 	}
 
 	@Override
-	public Page<PersonDto> filter(@Nullable String name, @Nullable String email, @Nullable Integer page,
+	public Page<PersonResponse> filter(@Nullable String name, @Nullable String email, @Nullable Integer page,
 			@Nullable Integer size) {
 		var specification = this.prepareSpecification(name, email);
 		return this.repository.findAll(specification, this.preparePageable(PageRequest.of(page, size)))
-				.map(this::convertFromDTO);
+				.map(this::convertFromResponse);
 	}
 
 	@NotNull

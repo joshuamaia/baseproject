@@ -1,8 +1,9 @@
-package br.com.joshua.baseproject.dto;
+package br.com.joshua.baseproject.response;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import br.com.joshua.baseproject.enums.GenderEnum;
+import br.com.joshua.baseproject.enums.ExpenseEnum;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -17,20 +18,17 @@ import lombok.experimental.FieldDefaults;
 @EqualsAndHashCode(callSuper = false)
 @ToString
 @FieldDefaults(level = AccessLevel.PROTECTED)
-public class PersonDto extends DtoBase<Long> {
-
+public class ExpenseControlResponse extends ResponseBase<Long> {
 	private static final long serialVersionUID = 1L;
 
-	Long id;
+	ExpenseEnum expense;
 
-	String name;
+	String description;
 
-	String email;
+	LocalDate dateExpense;
 
-	LocalDate birthDate;
+	BigDecimal value;
 
-	GenderEnum gender;
-
-	AddressDto address;
+	PersonResponse person;
 
 }

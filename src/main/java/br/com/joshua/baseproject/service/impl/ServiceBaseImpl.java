@@ -11,11 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import br.com.joshua.baseproject.dto.DtoBase;
+import br.com.joshua.baseproject.request.RequestBase;
 import br.com.joshua.baseproject.service.ServiceBase;
 import br.com.joshua.baseproject.util.Converte;
 
-public abstract class ServiceBaseImpl<T extends DtoBase<ID>, ID extends Number, E, R extends JpaRepository<E, ID>> implements ServiceBase<T, ID>, Converte<E, T> {
+public abstract class ServiceBaseImpl<Res, T extends RequestBase<ID>, ID extends Number, E, R extends JpaRepository<E, ID>> implements ServiceBase<Res, T, ID>, Converte<E, T, Res> {
 
 	@Autowired
 	private ModelMapper modelMapper;
@@ -24,33 +24,33 @@ public abstract class ServiceBaseImpl<T extends DtoBase<ID>, ID extends Number, 
 	protected R repository;
 	
 	@Override
-	public T save(T dto) {
-		return convertFromDTO(repository.save(convertFromEntity(dto)));
+	public Res save(T request) {
+		return convertFromResponse(repository.save(convertFromEntity(request)));
 	}
 	
 	@Override
-	public T update(T dto) {
-		if (dto.getId() == null) {
+	public Res update(T request) {
+		if (request.getId() == null) {
 			throw new RuntimeException("Id not present!");
 		}
-		Optional<E> e = repository.findById(dto.getId());
+		Optional<E> e = repository.findById(request.getId());
 		if (!e.isPresent()) {
 			throw new RuntimeException("Entity not present!");
 		}
-		return convertFromDTO(repository.save(convertFromEntity(dto)));
+		return convertFromResponse(repository.save(convertFromEntity(request)));
 	}
 
 	@Override
-	public T findOne(ID id) {
+	public Res findOne(ID id) {
 		Optional<E> e = repository.findById(id);
 		if (!e.isPresent()) {
 			throw new RuntimeException("Entity not present!");
 		}
-		return convertFromDTO(e.get());
+		return convertFromResponse(e.get());
 	}
 
 	@Override
-	public abstract Page<T> searchAllPage(Integer page, Integer size, String wordSearch);
+	public abstract Page<Res> searchAllPage(Integer page, Integer size, String wordSearch);
 
 	@Override
 	public void delete(ID id) {
@@ -58,17 +58,17 @@ public abstract class ServiceBaseImpl<T extends DtoBase<ID>, ID extends Number, 
 	}
 
 	@Override
-	public List<T> getAll() {
-		return repository.findAll().stream().map(this::convertFromDTO).collect(Collectors.toList());
+	public List<Res> getAll() {
+		return repository.findAll().stream().map(this::convertFromResponse).collect(Collectors.toList());
 	}
 	
 	@Override
 	public E convertFromEntity(T dto) {
-		return modelMapper.map(dto, getGenericClassType(2));
+		return modelMapper.map(dto, getGenericClassType(3));
 	}
 
 	@Override
-	public T convertFromDTO(E entity) {
+	public Res convertFromResponse(E entity) {
 		return modelMapper.map(entity, getGenericClassType(0));
 	}
 

@@ -1,9 +1,9 @@
-package br.com.joshua.baseproject.dto;
+package br.com.joshua.baseproject.request;
 
-import java.io.Serializable;
+import java.time.LocalDate;
 
+import br.com.joshua.baseproject.enums.GenderEnum;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,14 +13,22 @@ import lombok.experimental.FieldDefaults;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @ToString
 @FieldDefaults(level = AccessLevel.PROTECTED)
-public abstract class DtoBase<ID extends Number> implements Serializable {
+public class PersonRequest extends RequestBase<Long> {
 
-	private static final long serialVersionUID = -6964701705299216524L;
-	ID id;
+	private static final long serialVersionUID = 1L;
+
+	String name;
+
+	String email;
+
+	LocalDate birthDate;
+
+	GenderEnum gender;
+
+	AddressRequest address;
 
 }

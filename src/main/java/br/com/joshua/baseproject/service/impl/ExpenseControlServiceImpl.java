@@ -13,39 +13,40 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import br.com.joshua.baseproject.domain.ExpenseControl;
-import br.com.joshua.baseproject.dto.ExpenseControlDto;
-import br.com.joshua.baseproject.dto.ExpenseSumDto;
 import br.com.joshua.baseproject.repository.ExpenseControlRepository;
 import br.com.joshua.baseproject.repository.specification.ExpenseControlSpecification;
+import br.com.joshua.baseproject.request.ExpenseControlRequest;
+import br.com.joshua.baseproject.response.ExpenseControlResponse;
+import br.com.joshua.baseproject.response.ExpenseSumResponse;
 import br.com.joshua.baseproject.service.ExpenseControlService;
 
 @Service
-public class ExpenseControlServiceImpl
-		extends ServiceBaseImpl<ExpenseControlDto, Long, ExpenseControl, ExpenseControlRepository>
+public class ExpenseControlServiceImpl extends
+		ServiceBaseImpl<ExpenseControlResponse, ExpenseControlRequest, Long, ExpenseControl, ExpenseControlRepository>
 		implements ExpenseControlService {
 
 	@Override
-	public Page<ExpenseControlDto> searchAllPage(Integer page, Integer size, String wordSearch) {
+	public Page<ExpenseControlResponse> searchAllPage(Integer page, Integer size, String wordSearch) {
 		PageRequest pageRequest = PageRequest.of(page, size);
 		if (wordSearch == null || wordSearch.trim().isEmpty()) {
-			return repository.findAll(pageRequest).map(this::convertFromDTO);
+			return repository.findAll(pageRequest).map(this::convertFromResponse);
 		}
 		wordSearch = wordSearch.toLowerCase();
-		return repository.searchAllPage(wordSearch, pageRequest).map(this::convertFromDTO);
+		return repository.searchAllPage(wordSearch, pageRequest).map(this::convertFromResponse);
 
 	}
 
 	@Override
-	public List<ExpenseSumDto> searchSumExpense(Long personId) {
+	public List<ExpenseSumResponse> searchSumExpense(Long personId) {
 		return this.repository.searchSumExpense(personId);
 	}
 
 	@Override
-	public Page<ExpenseControlDto> filter(@Nullable String description, @Nullable String name, @Nullable String email,
-			@Nullable Integer page, @Nullable Integer size) {
+	public Page<ExpenseControlResponse> filter(@Nullable String description, @Nullable String name,
+			@Nullable String email, @Nullable Integer page, @Nullable Integer size) {
 		var specification = this.prepareSpecification(description, name, email);
 		return this.repository.findAll(specification, this.preparePageable(PageRequest.of(page, size)))
-				.map(this::convertFromDTO);
+				.map(this::convertFromResponse);
 	}
 
 	@NotNull

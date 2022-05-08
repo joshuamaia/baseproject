@@ -1,7 +1,7 @@
 package br.com.joshua.baseproject.util;
 
-public interface Converte<E, T> {
-	public E convertFromEntity(T dto);
+public interface Converte<E, T, Res> {
+	public E convertFromEntity(T request);
 
-	public T convertFromDTO(E entity);
+	public Res convertFromResponse(E entity);
 }

@@ -4,18 +4,18 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 
-public interface ServiceBase<T, ID> {
+public interface ServiceBase<Res, T, ID> {
 
-	T save(T entity);
+	Res save(T request);
 	
-	T update(T entity);
+	Res update(T request);
 	
-	T findOne(ID id);
+	Res findOne(ID id);
 	
-	Page<T> searchAllPage(Integer page, Integer size, String wordSearch);
+	Page<Res> searchAllPage(Integer page, Integer size, String wordSearch);
 	
 	void delete(ID id);
 	
-	List<T> getAll();
+	List<Res> getAll();
 	
 }

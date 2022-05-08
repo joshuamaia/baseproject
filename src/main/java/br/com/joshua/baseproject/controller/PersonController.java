@@ -18,7 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.joshua.baseproject.dto.PersonDto;
+import br.com.joshua.baseproject.request.PersonRequest;
+import br.com.joshua.baseproject.response.PersonResponse;
 import br.com.joshua.baseproject.service.PersonService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -36,12 +37,12 @@ public class PersonController {
 
 	@Operation(summary = "Search all Persons")
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Found the List of Person", content = {
-			@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = PersonDto.class))) }),
+			@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = PersonResponse.class))) }),
 			@ApiResponse(responseCode = "400", description = "Invalid id supplied", content = @Content) })
 	@GetMapping("/list")
-	public ResponseEntity<List<PersonDto>> getAll() {
-		List<PersonDto> persons = service.getAll();
-		return new ResponseEntity<List<PersonDto>>(persons, HttpStatus.OK);
+	public ResponseEntity<List<PersonResponse>> getAll() {
+		List<PersonResponse> persons = service.getAll();
+		return new ResponseEntity<List<PersonResponse>>(persons, HttpStatus.OK);
 	}
 
 	@Operation(summary = "Search all Persons pagened")
@@ -49,10 +50,10 @@ public class PersonController {
 			@ApiResponse(responseCode = "200", description = "Found the List of Person", content = @Content(mediaType = "application/json", schema = @Schema(implementation = PersonPage.class))),
 			@ApiResponse(responseCode = "400", description = "Invalid id supplied", content = @Content) })
 	@GetMapping(value = { "/{page}/{size}", "/{page}/{size}/{wordSearch}" })
-	public ResponseEntity<Page<PersonDto>> getAll(@PathVariable Integer page, @PathVariable Integer size,
+	public ResponseEntity<Page<PersonResponse>> getAll(@PathVariable Integer page, @PathVariable Integer size,
 			@PathVariable(required = false) String wordSearch) {
-		Page<PersonDto> persons = service.searchAllPage(page, size, wordSearch);
-		return new ResponseEntity<Page<PersonDto>>(persons, HttpStatus.OK);
+		Page<PersonResponse> persons = service.searchAllPage(page, size, wordSearch);
+		return new ResponseEntity<Page<PersonResponse>>(persons, HttpStatus.OK);
 	}
 
 	@Operation(summary = "Search all Persons pagened")
@@ -60,7 +61,7 @@ public class PersonController {
 			@ApiResponse(responseCode = "200", description = "Found the List of Person", content = @Content(mediaType = "application/json", schema = @Schema(implementation = PersonPage.class))),
 			@ApiResponse(responseCode = "400", description = "Invalid id supplied", content = @Content) })
 	@GetMapping("/filter")
-	public ResponseEntity<Page<PersonDto>> filter(@RequestParam(required = false) String name,
+	public ResponseEntity<Page<PersonResponse>> filter(@RequestParam(required = false) String name,
 			@RequestParam(required = false) String email, @RequestParam(required = false) Integer page,
 			@RequestParam(required = false) Integer size) {
 
@@ -71,34 +72,34 @@ public class PersonController {
 	@Operation(summary = "Create Person")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "201", description = "Person created with sucessful", content = {
-					@Content(mediaType = "application/json", schema = @Schema(implementation = PersonDto.class)) }),
+					@Content(mediaType = "application/json", schema = @Schema(implementation = PersonResponse.class)) }),
 			@ApiResponse(responseCode = "400", description = "Invalid id supplied", content = @Content) })
 	@PostMapping
-	public ResponseEntity<PersonDto> create(@RequestBody PersonDto person) {
-		PersonDto personSave = service.save(person);
-		return new ResponseEntity<PersonDto>(personSave, HttpStatus.CREATED);
+	public ResponseEntity<PersonResponse> create(@RequestBody PersonRequest person) {
+		PersonResponse personSave = service.save(person);
+		return new ResponseEntity<PersonResponse>(personSave, HttpStatus.CREATED);
 	}
 
 	@Operation(summary = "Update Person")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "201", description = "Person updated with sucessful", content = {
-					@Content(mediaType = "application/json", schema = @Schema(implementation = PersonDto.class)) }),
+					@Content(mediaType = "application/json", schema = @Schema(implementation = PersonResponse.class)) }),
 			@ApiResponse(responseCode = "400", description = "Invalid id supplied", content = @Content) })
 	@PutMapping
-	public ResponseEntity<PersonDto> update(@RequestBody PersonDto person) {
-		PersonDto personUpdate = service.update(person);
-		return new ResponseEntity<PersonDto>(personUpdate, HttpStatus.OK);
+	public ResponseEntity<PersonResponse> update(@RequestBody PersonRequest person) {
+		PersonResponse personUpdate = service.update(person);
+		return new ResponseEntity<PersonResponse>(personUpdate, HttpStatus.OK);
 	}
 
 	@Operation(summary = "Search Person By id")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "Found the Person", content = {
-					@Content(mediaType = "application/json", schema = @Schema(implementation = PersonDto.class)) }),
+					@Content(mediaType = "application/json", schema = @Schema(implementation = PersonRequest.class)) }),
 			@ApiResponse(responseCode = "400", description = "Invalid id supplied", content = @Content) })
 	@GetMapping("/{id}")
-	public ResponseEntity<PersonDto> getOneById(@PathVariable Long id) {
-		PersonDto person = service.findOne(id);
-		return new ResponseEntity<PersonDto>(person, HttpStatus.OK);
+	public ResponseEntity<PersonResponse> getOneById(@PathVariable Long id) {
+		PersonResponse person = service.findOne(id);
+		return new ResponseEntity<PersonResponse>(person, HttpStatus.OK);
 	}
 
 	@Operation(summary = "Delete Person By id")
@@ -112,8 +113,8 @@ public class PersonController {
 		return ResponseEntity.noContent().build();
 	}
 
-	class PersonPage extends PageImpl<PersonDto> {
-		public PersonPage(List<PersonDto> content, Pageable pageable, long total) {
+	class PersonPage extends PageImpl<PersonResponse> {
+		public PersonPage(List<PersonResponse> content, Pageable pageable, long total) {
 			super(content, pageable, total);
 		}
 	}

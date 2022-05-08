@@ -1,8 +1,8 @@
-package br.com.joshua.baseproject.dto;
+package br.com.joshua.baseproject.response;
 
 import java.math.BigDecimal;
 
-public interface ExpenseSumDto {
+public interface ExpenseSumResponse {
 
 	String getExpense();
 	
