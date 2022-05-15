@@ -4,9 +4,9 @@ spring:
   # Database
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/baseapi
-    username: postgres
-    password: root
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:baseapi}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:root}
   # Flyway
   flyway:
     enabled: true

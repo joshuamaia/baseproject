@@ -1,0 +1,35 @@
+version: "3"
+services: 
+  baseproject-db:
+    image: postgres:11
+    container_name: baseproject-db
+    restart: always
+    networks:
+      - baseproject-network
+    environment:
+      - POSTGRES_DB=baseproject
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=root
+    ports:
+      - 5433:5432
+
+  baseproject-api:
+    build: .
+    container_name: baseproject
+    depends_on:
+      - baseproject-db
+    networks:
+      - baseproject-network
+    environment:
+      - PORT=8080
+      - DB_HOST=baseproject-db
+      - DB_NAME=baseproject
+      - DB_USER=postgres
+      - DB_PASSWORD=root
+      - DB_PORT=5432
+    ports:
+      - 8080:8080
+
+networks:
+  baseproject-network:
+    driver: bridge
