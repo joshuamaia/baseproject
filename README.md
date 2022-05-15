@@ -2,10 +2,12 @@
 
 # Path Swagger
 
-http://localhost:8080/swagger-ui/index.html#/
+<p> http://localhost:8080/swagger-ui/index.html#/ </p>
 
-#Run docker
+#Run docker - Executar os comandos abaixo na raiz do projeto
 
-### docker build --build-arg JAR_FILE=target/baseproject-0.0.1-SNAPSHOT.jar -t baseproject .
-### docker run --name baseproject-db -p 5433:5432 -e POSTGRES_DB=baseproject -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=123456 postgres:11
-### docker-compose up
+<p> Observação - Eu uso no projeto o Java 17 e o JAVA_HOME aponta pra ele </p>
+
+<p>  mvn package </p>
+
+<p> docker-compose up </p>
