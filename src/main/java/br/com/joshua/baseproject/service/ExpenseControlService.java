@@ -13,6 +13,8 @@ public interface ExpenseControlService extends ServiceBase<ExpenseControlRespons
 
 	List<ExpenseSumResponse> searchSumExpense(Long personId);
 	
+	List<ExpenseSumResponse> searchSumExpenseTotal();
+	
 	public Page<ExpenseControlResponse> filter(
 			@Nullable String description,
 			@Nullable String name,

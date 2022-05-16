@@ -40,6 +40,11 @@ public class ExpenseControlServiceImpl extends
 	public List<ExpenseSumResponse> searchSumExpense(Long personId) {
 		return this.repository.searchSumExpense(personId);
 	}
+	
+	@Override
+	public List<ExpenseSumResponse> searchSumExpenseTotal() {
+		return this.repository.searchSumExpenseTotal();
+	}
 
 	@Override
 	public Page<ExpenseControlResponse> filter(@Nullable String description, @Nullable String name,
@@ -61,5 +66,7 @@ public class ExpenseControlServiceImpl extends
 	private Pageable preparePageable(@Nullable Pageable pageable) {
 		return Optional.ofNullable(pageable).orElse(Pageable.unpaged());
 	}
+
+
 
 }

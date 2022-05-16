@@ -35,6 +35,16 @@ public class ExpenseControlController {
 
 	@Autowired
 	private ExpenseControlService service;
+	
+	@Operation(summary = "Search the sum of expenses")
+	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Found the Expense Sum", content = {
+			@Content(mediaType = "application/json", schema = @Schema(implementation = ExpenseSumResponse.class)) }),
+			@ApiResponse(responseCode = "400", description = "Invalid id supplied", content = @Content) })
+	@GetMapping("/expense-sum")
+	public ResponseEntity<List<ExpenseSumResponse>> searchSumExpenseTotal() {
+		List<ExpenseSumResponse> expenseSum = service.searchSumExpenseTotal();
+		return new ResponseEntity<List<ExpenseSumResponse>>(expenseSum, HttpStatus.OK);
+	}
 
 	@Operation(summary = "Search the sum of expenses by the person's id")
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Found the Expense Sum", content = {

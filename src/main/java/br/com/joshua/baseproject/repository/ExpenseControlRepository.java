@@ -18,8 +18,11 @@ public interface ExpenseControlRepository
 	@Query("FROM ExpenseControl ec WHERE LOWER(ec.description) like %:wordSearch%")
 	Page<ExpenseControl> searchAllPage(@Param("wordSearch") String wordSearch, Pageable pageable);
 
-	@Query(value = "SELECT expense, sum(value) as value " + "	FROM expense_control "
-			+ "	where person_id = :personId " + "	group by 1", nativeQuery = true)
+	@Query(value = "SELECT expense, sum(value) as value FROM expense_control " + "	where person_id = :personId "
+			+ "	group by 1", nativeQuery = true)
 	List<ExpenseSumResponse> searchSumExpense(@Param("personId") Long personId);
+
+	@Query(value = "SELECT expense, sum(value) as value FROM expense_control group by 1", nativeQuery = true)
+	List<ExpenseSumResponse> searchSumExpenseTotal();
 
 }
